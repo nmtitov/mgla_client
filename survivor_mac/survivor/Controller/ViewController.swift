@@ -55,7 +55,7 @@ class ViewController: NSViewController, WebSocketServiceDelegate {
     // MARK: - WebSocketServiceDelegate
     
     func didConnect(service: WebSocketService) {
-        AppDelegate.shared.webSocketService.actionEcho(string: "Hello")
+        
     }
     
     func didDisconnect(service: WebSocketService) {
