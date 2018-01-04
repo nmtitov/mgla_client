@@ -10,7 +10,7 @@ import Cocoa
 import SpriteKit
 import GameplayKit
 
-class ViewController: NSViewController {
+class ViewController: NSViewController, WebSocketServiceDelegate {
     
     @IBOutlet var skView: SKView!
     
@@ -44,11 +44,26 @@ class ViewController: NSViewController {
         }
         super.viewDidLoad()
         setupScene()
+        AppDelegate.shared.webSocketService.delegate = self
     }
     
     override func viewWillAppear() {
         super.viewWillAppear()
         AppDelegate.shared.webSocketService.connect()
+    }
+    
+    // MARK: - WebSocketServiceDelegate
+    
+    func didConnect(service: WebSocketService) {
+        AppDelegate.shared.webSocketService.actionEcho(string: "Hello")
+    }
+    
+    func didDisconnect(service: WebSocketService) {
+        
+    }
+    
+    func didReceiveTeleport(service: WebSocketService, point: CGPoint) {
+        
     }
     
 }
