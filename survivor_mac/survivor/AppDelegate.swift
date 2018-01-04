@@ -12,7 +12,7 @@ import CocoaLumberjack
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
-
+    let webSocketService = WebSocketService()
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         func setupLogging() {
@@ -31,6 +31,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Insert code here to tear down your application
     }
 
+    class var shared: AppDelegate {
+        return NSApp.delegate! as! AppDelegate
+    }
+    
     // MARK: - Core Data stack
 
     lazy var persistentContainer: NSPersistentContainer = {

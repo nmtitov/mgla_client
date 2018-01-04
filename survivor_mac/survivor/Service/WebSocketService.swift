@@ -20,6 +20,14 @@ class WebSocketService: WebSocketDelegate {
         socket.delegate = self
     }
     
+    func connect() {
+        socket.connect()
+    }
+    
+    func disconnect() {
+        socket.disconnect()
+    }
+    
     // MARK: - WebSocketDelegate
     
     func websocketDidConnect(socket: WebSocketClient) {
