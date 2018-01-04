@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import CocoaLumberjack
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
@@ -14,7 +15,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        // Insert code here to initialize your application
+        func setupLogging() {
+            DDLog.add(DDTTYLogger.sharedInstance) // TTY = Xcode console
+            DDLog.add(DDASLLogger.sharedInstance) // ASL = Apple System Logs
+            
+            let fileLogger: DDFileLogger = DDFileLogger() // File Logger
+            fileLogger.rollingFrequency = TimeInterval(60*60*24)  // 24 hours
+            fileLogger.logFileManager.maximumNumberOfLogFiles = 7
+            DDLog.add(fileLogger)
+        }
+        setupLogging()
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
