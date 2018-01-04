@@ -8,6 +8,7 @@ target 'survivor' do
   # Pods for survivor
   pod 'Starscream', '~> 3.0.2'
   pod 'Decodable', '~> 0.6.0'
+  pod 'CocoaLumberjack/Swift'
 
   target 'survivorTests' do
     inherit! :search_paths
