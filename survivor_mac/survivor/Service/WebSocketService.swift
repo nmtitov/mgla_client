@@ -16,7 +16,8 @@ class WebSocketService: WebSocketDelegate {
     
     init() {
         let url = URL(string: "ws://localhost:8000/websocket")!
-        socket = WebSocket(url: url)
+        let request = URLRequest(url: url)
+        socket = WebSocket(request: request)
         socket.delegate = self
     }
     
