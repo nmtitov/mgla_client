@@ -39,11 +39,11 @@ class WebSocketService: WebSocketDelegate {
     }
     
     func websocketDidReceiveMessage(socket: WebSocketClient, text: String) {
-        DDLogInfo("\(#function)")
+        DDLogInfo("\(#function): \(text)")
     }
     
     func websocketDidReceiveData(socket: WebSocketClient, data: Data) {
-        DDLogInfo("\(#function)")
+        DDLogInfo("\(#function): \(data)")
     }
 
 }
