@@ -14,7 +14,7 @@ protocol WebSocketServiceDelegate {
     
     func didConnect(service: WebSocketService)
     func didDisconnect(service: WebSocketService)
-    func didReceiveTeleport(service: WebSocketService, point: CGPoint)
+    func didTeleport(service: WebSocketService, point: CGPoint)
     
 }
 
@@ -40,8 +40,13 @@ class WebSocketService: WebSocketDelegate {
     
     // MARK: Actions
     
-    func actionEcho(string: String) {
-        socket.write(string: string)
+    func actionTeleport(point: CGPoint) {
+        let dict = ["x": Double(point.x), "y": Double(point.y)]
+        let encoder = JSONEncoder()
+        let jsonData = try! encoder.encode(dict)
+        let jsonString = String(data: jsonData, encoding: .utf8)!
+        print(jsonString)
+        socket.write(string: jsonString)
     }
     
     // MARK: - WebSocketDelegate
@@ -58,6 +63,11 @@ class WebSocketService: WebSocketDelegate {
     
     func websocketDidReceiveMessage(socket: WebSocketClient, text: String) {
         DDLogInfo("\(#function): \(text)")
+        let data = text.data(using: .utf8)!
+        let json = try! JSONSerialization.jsonObject(with: data, options: [])
+        let point = try! PointDecodable.decode(json)
+        let cgPoint = CGPoint(x: point.x, y: point.y)
+        delegate?.didTeleport(service: self, point: cgPoint)
     }
     
     func websocketDidReceiveData(socket: WebSocketClient, data: Data) {

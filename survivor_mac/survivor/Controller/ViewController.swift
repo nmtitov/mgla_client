@@ -14,6 +14,8 @@ class ViewController: NSViewController, WebSocketServiceDelegate {
     
     @IBOutlet var skView: SKView!
     
+    var scene: GameScene!
+    
     override func viewDidLoad() {
         func setupScene() {
             // Load 'GameScene.sks' as a GKScene. This provides gameplay related content
@@ -41,6 +43,8 @@ class ViewController: NSViewController, WebSocketServiceDelegate {
             
             view.showsFPS = true
             view.showsNodeCount = true
+            
+            self.scene = sceneNode
         }
         super.viewDidLoad()
         setupScene()
@@ -62,8 +66,8 @@ class ViewController: NSViewController, WebSocketServiceDelegate {
         
     }
     
-    func didReceiveTeleport(service: WebSocketService, point: CGPoint) {
-        
+    func didTeleport(service: WebSocketService, point: CGPoint) {
+        scene.actionTeleport(point)
     }
     
 }

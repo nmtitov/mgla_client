@@ -14,12 +14,15 @@ class GameScene: SKScene {
     var entities = [GKEntity]()
     var graphs = [String: GKGraph]()
     
+    var me: SKNode?
+    
     override func sceneDidLoad() {
         
     }
     
     func touchDown(atPoint pos: CGPoint) {
         print(pos)
+        AppDelegate.shared.webSocketService.actionTeleport(point: pos)
     }
     
     func touchMoved(toPoint pos: CGPoint) {
@@ -32,6 +35,20 @@ class GameScene: SKScene {
     
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
+    }
+    
+    // MARK: - API
+    
+    func actionTeleport(_ point: CGPoint) {
+        if let me = me  {
+            me.position = point
+        } else {
+            let node = SKShapeNode(circleOfRadius: 5)
+            node.fillColor = .white
+            node.position = point
+            addChild(node)
+            me = node
+        }
     }
     
     // MARK: - Input Handling (OS X)
