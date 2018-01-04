@@ -6,6 +6,8 @@ target 'survivor' do
   use_frameworks!
 
   # Pods for survivor
+  pod 'Starscream', '~> 3.0.2'
+  pod 'Decodable', '~> 0.6.0'
 
   target 'survivorTests' do
     inherit! :search_paths
