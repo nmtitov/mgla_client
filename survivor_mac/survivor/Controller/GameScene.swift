@@ -43,7 +43,7 @@ class GameScene: SKScene {
         if let me = me  {
             me.position = point
         } else {
-            let node = SKShapeNode(circleOfRadius: 5)
+            let node = SKShapeNode(circleOfRadius: 1)
             node.fillColor = .white
             node.position = point
             addChild(node)
