@@ -45,7 +45,6 @@ class WebSocketService: WebSocketDelegate {
         let encoder = JSONEncoder()
         let jsonData = try! encoder.encode(dict)
         let jsonString = String(data: jsonData, encoding: .utf8)!
-        print(jsonString)
         socket.write(string: jsonString)
     }
     

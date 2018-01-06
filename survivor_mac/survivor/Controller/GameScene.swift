@@ -21,7 +21,6 @@ class GameScene: SKScene {
     }
     
     func touchDown(atPoint pos: CGPoint) {
-        print(pos)
         AppDelegate.shared.webSocketService.actionTeleport(point: pos)
     }
     
