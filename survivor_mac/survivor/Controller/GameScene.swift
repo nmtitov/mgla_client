@@ -14,7 +14,7 @@ class GameScene: SKScene {
     var entities = [GKEntity]()
     var graphs = [String: GKGraph]()
     
-    var me: SKNode?
+    var nodes = [SKNode]()
     
     override func sceneDidLoad() {
         
@@ -38,15 +38,20 @@ class GameScene: SKScene {
     
     // MARK: - API
     
-    func actionTeleport(_ point: CGPoint) {
-        if let me = me  {
-            me.position = point
-        } else {
-            let node = SKShapeNode(circleOfRadius: 1)
-            node.fillColor = .white
+    func actionTeleport(_ teleport: Teleport) {
+        let id = teleport.id
+        let point = teleport.point
+        
+        let node = nodes.first(where:{ (node) -> Bool in
+            return node.name == "\(id)"
+        })
+        
+        if let node = node {
             node.position = point
+        } else {
+            let node = createNode(id: id, point: point)
+            nodes.append(node)
             addChild(node)
-            me = node
         }
     }
     
@@ -66,4 +71,13 @@ class GameScene: SKScene {
         self.touchMoved(toPoint: clickLocation)
     }
 
+    // MARK: - Factory
+    
+    private func createNode(id: Int, point: CGPoint) -> SKNode {
+        let node = SKShapeNode(circleOfRadius: 1)
+        node.name = "\(id)"
+        node.fillColor = .white
+        node.position = point
+        return node
+    }
 }

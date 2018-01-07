@@ -14,7 +14,7 @@ protocol WebSocketServiceDelegate {
     
     func didConnect(service: WebSocketService)
     func didDisconnect(service: WebSocketService)
-    func didTeleport(service: WebSocketService, point: CGPoint)
+    func didTeleport(service: WebSocketService, teleport: Teleport)
     
 }
 
@@ -64,9 +64,9 @@ class WebSocketService: WebSocketDelegate {
         DDLogInfo("\(#function): \(text)")
         let data = text.data(using: .utf8)!
         let json = try! JSONSerialization.jsonObject(with: data, options: [])
-        let point = try! PointDecodable.decode(json)
-        let cgPoint = CGPoint(x: point.x, y: point.y)
-        delegate?.didTeleport(service: self, point: cgPoint)
+        let td = try! TeleportDecodable.decode(json)
+        let t = td.poso()
+        delegate?.didTeleport(service: self, teleport: t)
     }
     
     func websocketDidReceiveData(socket: WebSocketClient, data: Data) {

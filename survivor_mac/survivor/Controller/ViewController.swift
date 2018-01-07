@@ -66,8 +66,8 @@ class ViewController: NSViewController, WebSocketServiceDelegate {
         
     }
     
-    func didTeleport(service: WebSocketService, point: CGPoint) {
-        scene.actionTeleport(point)
+    func didTeleport(service: WebSocketService, teleport: Teleport) {
+        scene.actionTeleport(teleport)
     }
     
 }
