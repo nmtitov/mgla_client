@@ -22,6 +22,11 @@ class WebSocketService: WebSocketDelegate {
     
     private let socket: WebSocket
     var delegate: WebSocketServiceDelegate?
+    var timer: Timer?
+    
+    deinit {
+        timer?.invalidate()
+    }
     
     init() {
         let url = URL(string: "ws://localhost:8000/websocket")!
@@ -32,6 +37,9 @@ class WebSocketService: WebSocketDelegate {
     
     func connect() {
         socket.connect()
+        timer = Timer.scheduledTimer(withTimeInterval: 30, repeats: true, block: { (timer) in
+            self.socket.write(ping: Data())
+        })
     }
     
     func disconnect() {
