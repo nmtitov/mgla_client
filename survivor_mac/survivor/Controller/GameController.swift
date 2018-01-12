@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  GameController.swift
 //  survivor
 //
 //  Created by Nikita Titov on 04/01/2018.
@@ -10,11 +10,16 @@ import Cocoa
 import SpriteKit
 import GameplayKit
 
-class ViewController: NSViewController, WebSocketServiceDelegate {
+class GameController: NSViewController, Identifiable, Ensurable, WebSocketServiceDelegate {
     
     @IBOutlet var skView: SKView!
     
     var scene: GameScene!
+    
+    func ensure() {
+        assert(skView != nil)
+        assert(scene != nil)
+    }
     
     override func viewDidLoad() {
         func setupScene() {
@@ -49,6 +54,7 @@ class ViewController: NSViewController, WebSocketServiceDelegate {
         super.viewDidLoad()
         setupScene()
         AppDelegate.shared.webSocketService.delegate = self
+        ensure()
     }
     
     override func viewWillAppear() {
