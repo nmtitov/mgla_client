@@ -72,9 +72,15 @@ class WebSocketService: WebSocketDelegate {
         DDLogInfo("\(#function): \(text)")
         let data = text.data(using: .utf8)!
         let json = try! JSONSerialization.jsonObject(with: data, options: [])
-        let td = try! TeleportDecodable.decode(json)
-        let t = td.poso()
-        delegate?.didTeleport(service: self, teleport: t)
+        let message = try! MessageDecodable.decode(json)
+        switch message.type {
+        case "teleport":
+            let concrete = try! TeleportDecodable.decode(message.body)
+            let plain = concrete.poso()
+            delegate?.didTeleport(service: self, teleport: plain)
+        default:
+            DDLogError("Unknown message type = \(message.type)")
+        }
     }
     
     func websocketDidReceiveData(socket: WebSocketClient, data: Data) {
