@@ -13,7 +13,6 @@ import Decodable
 import CocoaLumberjack
 
 struct MessageDecodable: Decodable {
-    
     let type: String
     let body: Any
     
@@ -28,7 +27,6 @@ struct MessageDecodable: Decodable {
             body: json => "body"
         )
     }
-    
 }
 
 struct EnterDecodable: Decodable {
@@ -68,7 +66,6 @@ struct LeaveDecodable: Decodable {
 }
 
 struct TeleportDecodable: Decodable {
-    
     let id: Int
     let point: PointDecodable
     
@@ -87,5 +84,4 @@ struct TeleportDecodable: Decodable {
     func poso() -> Teleport {
         return Teleport(id: id, point: CGPoint(x: point.x, y: point.y))
     }
-    
 }
