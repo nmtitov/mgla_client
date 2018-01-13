@@ -62,6 +62,12 @@ class GameController: NSViewController, Identifiable, Ensurable, WebSocketServic
         AppDelegate.shared.webSocketService.connect()
     }
     
+    // MARK: - Actions
+    
+    @IBAction func actionDisconnect(_ sender: Any) {
+        
+    }
+    
     // MARK: - WebSocketServiceDelegate
     
     func didConnect(service: WebSocketService) {
