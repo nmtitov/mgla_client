@@ -110,6 +110,46 @@ struct AssetDecodable: Decodable {
     }
 }
 
+//{
+//    "type": "block",
+//    "position": {
+//        "x": 100.0,
+//        "y": 200.0
+//    },
+//    "size": {
+//        "width": 100.0,
+//        "height": 100.0
+//    }
+//},
+
+struct BlockDecodable: Decodable {
+    let type: String
+    let position: PointDecodable
+    let size: SizeDecodable
+    
+    init(type: String, position: PointDecodable, size: SizeDecodable) {
+        self.type = type
+        self.position = position
+        self.size = size
+    }
+    
+    static func decode(_ json: Any) throws -> BlockDecodable {
+        return try BlockDecodable(
+            type: json => "type",
+            position: json => "position",
+            size: json => "size"
+        )
+    }
+    
+    func poso() -> Block {
+        return Block(
+            type: type,
+            position: CGPoint(x: position.x, y: position.y),
+            size: CGSize(width: size.width, height: size.height)
+        )
+    }
+}
+
 struct TeleportDecodable: Decodable {
     let id: Int
     let point: PointDecodable

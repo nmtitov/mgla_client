@@ -19,6 +19,12 @@ struct Asset {
     let z: Int
 }
 
+struct Block {
+    let type: String
+    let position: CGPoint
+    let size: CGSize
+}
+
 struct Leave {
     let id: Int
 }
