@@ -61,7 +61,6 @@ class GameScene: SKScene {
             let texture = SKTexture(image: image)
             let node = SKSpriteNode(texture: texture)
             node.size = asset.size
-            node.anchorPoint = CGPoint(x: 0, y: 0)
             node.zPosition = CGFloat(asset.z)
             node.position = asset.position
             addChild(node)
