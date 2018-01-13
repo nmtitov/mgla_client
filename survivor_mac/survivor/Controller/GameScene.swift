@@ -59,12 +59,12 @@ class GameScene: SKScene {
         for asset in assets {
             let image = NSImage(named: .init(rawValue: asset.name))!
             let texture = SKTexture(image: image)
-            let sprite = SKSpriteNode(texture: texture)
-            sprite.size = asset.size
-            sprite.anchorPoint = CGPoint(x: 0, y: 0)
-            sprite.zPosition = CGFloat(asset.z)
-            sprite.position = asset.position
-            addChild(sprite)
+            let node = SKSpriteNode(texture: texture)
+            node.size = asset.size
+            node.anchorPoint = CGPoint(x: 0, y: 0)
+            node.zPosition = CGFloat(asset.z)
+            node.position = asset.position
+            addChild(node)
         }
         for block in blocks {
             let node = SKShapeNode(rect: CGRect(origin: block.position, size: block.size))
