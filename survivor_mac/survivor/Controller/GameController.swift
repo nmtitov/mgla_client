@@ -43,7 +43,7 @@ class GameController: NSViewController, Identifiable, Ensurable, WebSocketServic
             
             // Present the scene
             let view = self.skView!
-            
+
             sceneNode.size = view.bounds.size
             
             view.presentScene(sceneNode)
