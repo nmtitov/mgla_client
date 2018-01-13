@@ -129,7 +129,6 @@
 				6F7C9A341FFEDA0100E4503C /* Service */,
 				6F89CF31200970750076A746 /* Codable */,
 				6F7C9A381FFEF08C00E4503C /* Decodable */,
-				6F7C9A271FFED89400E4503C /* Model */,
 				6F7C9A3B1FFEF1D600E4503C /* POSO */,
 				6F7C9A281FFED89400E4503C /* View */,
 				6F7C9A261FFED89400E4503C /* Controller */,
@@ -161,13 +160,6 @@
 				6F7C9A2E1FFED8CC00E4503C /* GameScene.swift */,
 			);
 			path = Controller;
-			sourceTree = "<group>";
-		};
-		6F7C9A271FFED89400E4503C /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 		6F7C9A281FFED89400E4503C /* View */ = {
