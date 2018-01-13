@@ -31,7 +31,7 @@ class GameController: NSViewController, Identifiable, Ensurable, WebSocketServic
             // Load 'GameScene.sks' as a GKScene. This provides gameplay related content
             // including entities and graphs.
             let scene = GKScene(fileNamed: "GameScene")!
-            
+
             // Get the SKScene from the loaded GKScene
             let sceneNode = scene.rootNode as! GameScene
             
@@ -39,12 +39,11 @@ class GameController: NSViewController, Identifiable, Ensurable, WebSocketServic
             sceneNode.entities = scene.entities
             sceneNode.graphs = scene.graphs
             
-            // Set the scale mode to scale to fit the window
-            sceneNode.scaleMode = .aspectFill
+            sceneNode.scaleMode = .resizeFill
             
             // Present the scene
             let view = self.skView!
-            
+
             sceneNode.size = view.bounds.size
             
             view.presentScene(sceneNode)
@@ -94,7 +93,7 @@ class GameController: NSViewController, Identifiable, Ensurable, WebSocketServic
     
     func didReceiveMap(service: WebSocketService, body: Map) {
         DDLogInfo("\(#function)")
-        scene.actionLoad(assets: body.assets, blocks: body.blocks)
+        scene.actionLoad(frontier: body.size, assets: body.assets, blocks: body.blocks)
     }
     
     func didLeave(service: WebSocketService, body: Leave) {

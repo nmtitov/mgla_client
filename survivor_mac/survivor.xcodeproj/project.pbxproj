@@ -156,8 +156,8 @@
 			children = (
 				6F89CF36200973760076A746 /* MainController.swift */,
 				6F7C9A2D1FFED8CC00E4503C /* GameController.swift */,
-				6F7C9A2C1FFED8CC00E4503C /* GameScene.sks */,
 				6F7C9A2E1FFED8CC00E4503C /* GameScene.swift */,
+				6F7C9A2C1FFED8CC00E4503C /* GameScene.sks */,
 			);
 			path = Controller;
 			sourceTree = "<group>";

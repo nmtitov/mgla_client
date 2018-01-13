@@ -9,31 +9,56 @@
 import SpriteKit
 import GameplayKit
 
-class GameScene: SKScene {
+enum NodeLevel: Int {
+    case ground = 0
+    case frontier = 100
+    case block = 1000
+    case other_player = 5000
+    case player = 10000
+}
+
+class GameScene: SKScene, Ensurable {
     
     var entities = [GKEntity]()
     var graphs = [String: GKGraph]()
     
     var nodes = [SKNode]()
+    var cam: SKCameraNode!
+    var player: SKNode?
+    
+    func ensure() {
+        assert(cam != nil)
+    }
     
     override func sceneDidLoad() {
         
     }
     
-    func touchDown(atPoint pos: CGPoint) {
-        AppDelegate.shared.webSocketService.actionTeleport(point: pos)
+    override func didMove(to view: SKView) {
+        super.didMove(to: view)
+        cam = SKCameraNode()
+        camera = cam
+        addChild(cam)
+        ensure()
     }
     
-    func touchMoved(toPoint pos: CGPoint) {
+    func touchDown(atPoint point: CGPoint) {
+        AppDelegate.shared.webSocketService.actionTeleport(point: point)
+    }
+    
+    func touchMoved(toPoint point: CGPoint) {
         
     }
     
-    func touchUp(atPoint pos: CGPoint) {
+    func touchUp(atPoint point: CGPoint) {
         
     }
     
     override func update(_ currentTime: TimeInterval) {
-        // Called before each frame is rendered
+        super.update(currentTime)
+        if let player = player {
+            cam.position = player.position
+        }
     }
     
     // MARK: - API
@@ -50,26 +75,24 @@ class GameScene: SKScene {
             node.position = point
         } else {
             let node = createNode(id: id, point: point)
+            if player == nil {
+                player = node
+            }
             nodes.append(node)
             addChild(node)
         }
     }
     
-    func actionLoad(assets: [Asset], blocks: [Block]) {
-        for asset in assets {
-            let image = NSImage(named: .init(rawValue: asset.name))!
-            let texture = SKTexture(image: image)
-            let node = SKSpriteNode(texture: texture)
-            node.size = asset.size
-            node.zPosition = CGFloat(asset.z)
-            node.position = asset.position
+    func actionLoad(frontier: CGSize, assets: [Asset], blocks: [Block]) {
+        let node = createFrontierNode(size: frontier)
+        addChild(node)
+        
+        for item in assets {
+            let node = createAssetNode(from: item)
             addChild(node)
         }
-        for block in blocks {
-            let node = SKShapeNode(rect: CGRect(origin: block.position, size: block.size))
-            node.name = "\(block.type)"
-            node.fillColor = .black
-            node.zPosition = 100
+        for item in blocks {
+            let node = createBlockNode(from: item)
             addChild(node)
         }
     }
@@ -97,7 +120,37 @@ class GameScene: SKScene {
         node.name = "\(id)"
         node.fillColor = .white
         node.position = point
-        node.zPosition = 1000
+        node.zPosition = CGFloat(NodeLevel.other_player.rawValue)
         return node
     }
+    
+    private func createAssetNode(from asset: Asset) -> SKSpriteNode {
+        let image = NSImage(named: .init(rawValue: asset.name))!
+        let texture = SKTexture(image: image)
+        let node = SKSpriteNode(texture: texture)
+        node.anchorPoint = CGPoint.zero
+        node.size = asset.size
+        node.zPosition = CGFloat(asset.z)
+        node.position = asset.position
+        return node
+    }
+    
+    private func createBlockNode(from block: Block) -> SKShapeNode {
+        let node = SKShapeNode(rect: CGRect(origin: block.position, size: block.size))
+        node.name = "\(block.type)"
+        node.fillColor = .black
+        node.zPosition = CGFloat(NodeLevel.block.rawValue)
+        return node
+    }
+    
+    private func createFrontierNode(size: CGSize) -> SKShapeNode {
+        let node = SKShapeNode(rect: CGRect(origin: CGPoint.zero, size: size))
+        node.name = "frontier"
+        node.fillColor = .clear
+        node.strokeColor = .white
+        node.lineWidth = 2
+        node.zPosition = CGFloat(NodeLevel.frontier.rawValue)
+        return node
+    }
+    
 }
