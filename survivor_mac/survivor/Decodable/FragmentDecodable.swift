@@ -1,5 +1,5 @@
 //
-//  PointDecodable.swift
+//  FragmentDecodable.swift
 //  survivor
 //
 //  Created by Nikita Titov on 05/01/2018.
@@ -13,7 +13,6 @@ import Decodable
 import CocoaLumberjack
 
 struct PointDecodable: Decodable {
-    
     let x: Double
     let y: Double
 
@@ -28,5 +27,21 @@ struct PointDecodable: Decodable {
             y: json => "y"
         )
     }
+}
 
+struct SizeDecodable: Decodable {
+    let width: Double
+    let height: Double
+    
+    init(width: Double, height: Double) {
+        self.width = width
+        self.height = height
+    }
+    
+    static func decode(_ json: Any) throws -> SizeDecodable {
+        return try SizeDecodable(
+            width: json => "width",
+            height: json => "height"
+        )
+    }
 }

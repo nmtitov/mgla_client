@@ -15,6 +15,7 @@ protocol WebSocketServiceDelegate {
     func didConnect(service: WebSocketService)
     func didDisconnect(service: WebSocketService)
     func didEnter(service: WebSocketService, body: Enter)
+    func didReceiveMap(service: WebSocketService, body: Map)
     func didLeave(service: WebSocketService, body: Leave)
     func didTeleport(service: WebSocketService, teleport: Teleport)
     
@@ -99,6 +100,10 @@ class WebSocketService: WebSocketDelegate {
             let concrete = try! EnterDecodable.decode(message.body)
             let plain = concrete.poso()
             delegate?.didEnter(service: self, body: plain)
+        case "map":
+            let concrete = try! MapDecodable.decode(message.body)
+            let plain = concrete.poso()
+            delegate?.didReceiveMap(service: self, body: plain)
         case "leave":
             let concrete = try! LeaveDecodable.decode(message.body)
             let plain = concrete.poso()

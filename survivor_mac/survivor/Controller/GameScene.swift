@@ -55,6 +55,25 @@ class GameScene: SKScene {
         }
     }
     
+    func actionLoad(assets: [Asset], blocks: [Block]) {
+        for asset in assets {
+            let image = NSImage(named: .init(rawValue: asset.name))!
+            let texture = SKTexture(image: image)
+            let node = SKSpriteNode(texture: texture)
+            node.size = asset.size
+            node.zPosition = CGFloat(asset.z)
+            node.position = asset.position
+            addChild(node)
+        }
+        for block in blocks {
+            let node = SKShapeNode(rect: CGRect(origin: block.position, size: block.size))
+            node.name = "\(block.type)"
+            node.fillColor = .black
+            node.zPosition = 100
+            addChild(node)
+        }
+    }
+    
     // MARK: - Input Handling (OS X)
 
     override func keyDown(with _: NSEvent) {
@@ -78,6 +97,7 @@ class GameScene: SKScene {
         node.name = "\(id)"
         node.fillColor = .white
         node.position = point
+        node.zPosition = 1000
         return node
     }
 }
