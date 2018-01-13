@@ -72,7 +72,8 @@ class GameScene: SKScene, Ensurable {
         })
         
         if let node = node {
-            node.position = point
+            let action = SKAction.move(to: point, duration: 0.33)
+            node.run(action)
         } else {
             let node = createNode(id: id, point: point)
             if player == nil {
