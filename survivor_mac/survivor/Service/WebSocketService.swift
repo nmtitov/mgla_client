@@ -14,6 +14,8 @@ protocol WebSocketServiceDelegate {
     
     func didConnect(service: WebSocketService)
     func didDisconnect(service: WebSocketService)
+    func didEnter(service: WebSocketService, body: Enter)
+    func didLeave(service: WebSocketService, body: Leave)
     func didTeleport(service: WebSocketService, teleport: Teleport)
     
 }
@@ -48,9 +50,24 @@ class WebSocketService: WebSocketDelegate {
     
     // MARK: Actions
     
+    let encoder = JSONEncoder()
+    
+    func actionEnter() {
+        let message = EnterMessage()
+        let jsonData = try! encoder.encode(message)
+        let jsonString = String(data: jsonData, encoding: .utf8)!
+        socket.write(string: jsonString)
+    }
+    
+    func actionLeave() {
+        let message = LeaveMessage()
+        let jsonData = try! encoder.encode(message)
+        let jsonString = String(data: jsonData, encoding: .utf8)!
+        socket.write(string: jsonString)
+    }
+    
     func actionTeleport(point: CGPoint) {
         let message = InputMessage(x: Float(point.x), y: Float(point.y))
-        let encoder = JSONEncoder()
         let jsonData = try! encoder.encode(message)
         let jsonString = String(data: jsonData, encoding: .utf8)!
         socket.write(string: jsonString)
@@ -78,6 +95,14 @@ class WebSocketService: WebSocketDelegate {
             let concrete = try! TeleportDecodable.decode(message.body)
             let plain = concrete.poso()
             delegate?.didTeleport(service: self, teleport: plain)
+        case "enter":
+            let concrete = try! EnterDecodable.decode(message.body)
+            let plain = concrete.poso()
+            delegate?.didEnter(service: self, body: plain)
+        case "leave":
+            let concrete = try! LeaveDecodable.decode(message.body)
+            let plain = concrete.poso()
+            delegate?.didLeave(service: self, body: plain)
         default:
             DDLogError("Unknown message type = \(message.type)")
         }

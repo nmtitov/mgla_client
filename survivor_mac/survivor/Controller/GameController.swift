@@ -9,6 +9,7 @@
 import Cocoa
 import SpriteKit
 import GameplayKit
+import CocoaLumberjack
 
 class GameController: NSViewController, Identifiable, Ensurable, WebSocketServiceDelegate {
     
@@ -63,13 +64,18 @@ class GameController: NSViewController, Identifiable, Ensurable, WebSocketServic
     
     override func viewWillAppear() {
         super.viewWillAppear()
-        AppDelegate.shared.webSocketService.connect()
+        AppDelegate.shared.webSocketService.actionEnter()
+    }
+    
+    override func viewWillDisappear() {
+        super.viewWillDisappear()
+        AppDelegate.shared.webSocketService.actionLeave()
     }
     
     // MARK: - Actions
     
     @IBAction func actionLeave(_ sender: Any) {
-        
+        AppDelegate.shared.webSocketService.actionLeave()
     }
     
     // MARK: - WebSocketServiceDelegate
@@ -80,6 +86,15 @@ class GameController: NSViewController, Identifiable, Ensurable, WebSocketServic
     
     func didDisconnect(service: WebSocketService) {
         
+    }
+    
+    func didEnter(service: WebSocketService, body: Enter) {
+        DDLogInfo("\(#function)")
+    }
+    
+    func didLeave(service: WebSocketService, body: Leave) {
+        DDLogInfo("\(#function)")
+        view.window?.close()
     }
     
     func didTeleport(service: WebSocketService, teleport: Teleport) {

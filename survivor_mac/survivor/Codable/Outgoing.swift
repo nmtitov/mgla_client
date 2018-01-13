@@ -21,16 +21,12 @@ struct EnterMessage: Codable {
     let type = "enter"
     let body: [String: Float]
     
-    init(x: Float, y: Float) {
+    init() {
         body = ["map": 0]
     }
 }
 
 struct LeaveMessage: Codable {
     let type = "leave"
-    let body: [String: Float]
-    
-    init(x: Float, y: Float) {
-        body = ["map": 0]
-    }
+    let body = [String: Float]()
 }

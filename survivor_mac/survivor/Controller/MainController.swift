@@ -21,6 +21,7 @@ class MainController: NSViewController, Identifiable, Ensurable {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        AppDelegate.shared.webSocketService.connect()
         ensure()
     }
     
