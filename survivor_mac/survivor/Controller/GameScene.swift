@@ -71,20 +71,12 @@ class GameScene: SKScene {
     }
     
     func actionLoad(assets: [Asset], blocks: [Block]) {
-        for asset in assets {
-            let image = NSImage(named: .init(rawValue: asset.name))!
-            let texture = SKTexture(image: image)
-            let node = SKSpriteNode(texture: texture)
-            node.size = asset.size
-            node.zPosition = CGFloat(asset.z)
-            node.position = asset.position
+        for item in assets {
+            let node = createAssetNode(from: item)
             addChild(node)
         }
-        for block in blocks {
-            let node = SKShapeNode(rect: CGRect(origin: block.position, size: block.size))
-            node.name = "\(block.type)"
-            node.fillColor = .black
-            node.zPosition = 100
+        for item in blocks {
+            let node = createBlockNode(from: item)
             addChild(node)
         }
     }
@@ -113,6 +105,24 @@ class GameScene: SKScene {
         node.fillColor = .white
         node.position = point
         node.zPosition = 1000
+        return node
+    }
+    
+    private func createAssetNode(from asset: Asset) -> SKSpriteNode {
+        let image = NSImage(named: .init(rawValue: asset.name))!
+        let texture = SKTexture(image: image)
+        let node = SKSpriteNode(texture: texture)
+        node.size = asset.size
+        node.zPosition = CGFloat(asset.z)
+        node.position = asset.position
+        return node
+    }
+    
+    private func createBlockNode(from block: Block) -> SKShapeNode {
+        let node = SKShapeNode(rect: CGRect(origin: block.position, size: block.size))
+        node.name = "\(block.type)"
+        node.fillColor = .black
+        node.zPosition = 100
         return node
     }
     
