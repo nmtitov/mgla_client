@@ -65,6 +65,51 @@ struct LeaveDecodable: Decodable {
     }
 }
 
+//{
+//    "name": "grass",
+//    "position": {
+//        "x": 64.0,
+//        "y": 0.0
+//    },
+//    "size": {
+//        "width": 64.0,
+//        "height": 64.0
+//    },
+//    "z": 0
+//},
+
+struct AssetDecodable: Decodable {
+    let name: String
+    let position: PointDecodable
+    let size: SizeDecodable
+    let z: Int
+
+    init(name: String, position: PointDecodable, size: SizeDecodable, z: Int) {
+        self.name = name
+        self.position = position
+        self.size = size
+        self.z = z
+    }
+    
+    static func decode(_ json: Any) throws -> AssetDecodable {
+        return try AssetDecodable(
+            name: json => "name",
+            position: json => "position",
+            size: json => "size",
+            z: json => "z"
+        )
+    }
+    
+    func poso() -> Asset {
+        return Asset(
+            name: name,
+            position: CGPoint(x: position.x, y: position.y),
+            size: CGSize(width: size.width, height: size.height),
+            z: z
+        )
+    }
+}
+
 struct TeleportDecodable: Decodable {
     let id: Int
     let point: PointDecodable

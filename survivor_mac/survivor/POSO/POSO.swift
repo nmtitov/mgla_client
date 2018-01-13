@@ -12,6 +12,13 @@ struct Enter {
     let id: Int
 }
 
+struct Asset {
+    let name: String
+    let position: CGPoint
+    let size: CGSize
+    let z: Int
+}
+
 struct Leave {
     let id: Int
 }
