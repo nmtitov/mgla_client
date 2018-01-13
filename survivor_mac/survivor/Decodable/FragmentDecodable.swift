@@ -13,7 +13,6 @@ import Decodable
 import CocoaLumberjack
 
 struct PointDecodable: Decodable {
-    
     let x: Double
     let y: Double
 
@@ -28,7 +27,6 @@ struct PointDecodable: Decodable {
             y: json => "y"
         )
     }
-
 }
 
 struct SizeDecodable: Decodable {
