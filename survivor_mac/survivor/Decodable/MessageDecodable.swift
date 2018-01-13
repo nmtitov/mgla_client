@@ -66,6 +66,50 @@ struct LeaveDecodable: Decodable {
 }
 
 //{
+//    "name": "forest",
+//    "size": {
+//        "width": 600.0,
+//        "height": 1000.0
+//    },
+//    "assets": [],
+//    "blocks": []
+//}
+
+struct MapDecodable: Decodable {
+    let name: String
+    let size: SizeDecodable
+    let assets: [AssetDecodable]
+    let blocks: [BlockDecodable]
+    
+    init(name: String, size: SizeDecodable, assets: [AssetDecodable], blocks: [BlockDecodable]) {
+        self.name = name
+        self.size = size
+        self.assets = assets
+        self.blocks = blocks
+    }
+    
+    static func decode(_ json: Any) throws -> MapDecodable {
+        return try MapDecodable(
+            name: json => "name",
+            size: json => "size",
+            assets: json => "assets",
+            blocks: json => "blocks"
+        )
+    }
+    
+    func poso() -> Map {
+        let plain_assets = assets.map { $0.poso() }
+        let plain_blocks = blocks.map { $0.poso() }
+        return Map(
+            name: name,
+            size: CGSize(width: size.width, height: size.height),
+            assets: plain_assets,
+            blocks: plain_blocks
+        )
+    }
+}
+
+//{
 //    "name": "grass",
 //    "position": {
 //        "x": 64.0,

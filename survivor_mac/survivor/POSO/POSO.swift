@@ -12,6 +12,13 @@ struct Enter {
     let id: Int
 }
 
+struct Map {
+    let name: String
+    let size: CGSize
+    let assets: [Asset]
+    let blocks: [Block]
+}
+
 struct Asset {
     let name: String
     let position: CGPoint
