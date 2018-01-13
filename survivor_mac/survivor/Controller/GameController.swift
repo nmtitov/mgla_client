@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  GameController.swift
 //  survivor
 //
 //  Created by Nikita Titov on 04/01/2018.
@@ -9,10 +9,22 @@
 import Cocoa
 import SpriteKit
 import GameplayKit
+import CocoaLumberjack
 
-class ViewController: NSViewController, WebSocketServiceDelegate {
+class GameController: NSViewController, Identifiable, Ensurable, WebSocketServiceDelegate {
     
     @IBOutlet var skView: SKView!
+    @IBOutlet weak var leaveButton: NSButton!
+    
+    var scene: GameScene!
+    
+    func ensure() {
+        assert(skView != nil)
+        assert(scene != nil)
+        assert(leaveButton != nil)
+        assert(leaveButton.target != nil)
+        assert(leaveButton.action != nil)
+    }
     
     override func viewDidLoad() {
         func setupScene() {
@@ -41,15 +53,29 @@ class ViewController: NSViewController, WebSocketServiceDelegate {
             
             view.showsFPS = true
             view.showsNodeCount = true
+            
+            self.scene = sceneNode
         }
         super.viewDidLoad()
         setupScene()
         AppDelegate.shared.webSocketService.delegate = self
+        ensure()
     }
     
     override func viewWillAppear() {
         super.viewWillAppear()
-        AppDelegate.shared.webSocketService.connect()
+        AppDelegate.shared.webSocketService.actionEnter()
+    }
+    
+    override func viewWillDisappear() {
+        super.viewWillDisappear()
+        AppDelegate.shared.webSocketService.actionLeave()
+    }
+    
+    // MARK: - Actions
+    
+    @IBAction func actionLeave(_ sender: Any) {
+        AppDelegate.shared.webSocketService.actionLeave()
     }
     
     // MARK: - WebSocketServiceDelegate
@@ -62,8 +88,17 @@ class ViewController: NSViewController, WebSocketServiceDelegate {
         
     }
     
-    func didReceiveTeleport(service: WebSocketService, point: CGPoint) {
-        
+    func didEnter(service: WebSocketService, body: Enter) {
+        DDLogInfo("\(#function)")
+    }
+    
+    func didLeave(service: WebSocketService, body: Leave) {
+        DDLogInfo("\(#function)")
+        view.window?.close()
+    }
+    
+    func didTeleport(service: WebSocketService, teleport: Teleport) {
+        scene.actionTeleport(teleport)
     }
     
 }

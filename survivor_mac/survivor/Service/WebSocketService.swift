@@ -14,7 +14,9 @@ protocol WebSocketServiceDelegate {
     
     func didConnect(service: WebSocketService)
     func didDisconnect(service: WebSocketService)
-    func didReceiveTeleport(service: WebSocketService, point: CGPoint)
+    func didEnter(service: WebSocketService, body: Enter)
+    func didLeave(service: WebSocketService, body: Leave)
+    func didTeleport(service: WebSocketService, teleport: Teleport)
     
 }
 
@@ -22,9 +24,14 @@ class WebSocketService: WebSocketDelegate {
     
     private let socket: WebSocket
     var delegate: WebSocketServiceDelegate?
+    var timer: Timer?
+    
+    deinit {
+        timer?.invalidate()
+    }
     
     init() {
-        let url = URL(string: "ws://localhost:8000/websocket")!
+        let url = URL(string: "ws://localhost:8080/websocket")!
         let request = URLRequest(url: url)
         socket = WebSocket(request: request)
         socket.delegate = self
@@ -32,6 +39,9 @@ class WebSocketService: WebSocketDelegate {
     
     func connect() {
         socket.connect()
+        timer = Timer.scheduledTimer(withTimeInterval: 30, repeats: true, block: { (timer) in
+            self.socket.write(ping: Data())
+        })
     }
     
     func disconnect() {
@@ -40,8 +50,27 @@ class WebSocketService: WebSocketDelegate {
     
     // MARK: Actions
     
-    func actionEcho(string: String) {
-        socket.write(string: string)
+    let encoder = JSONEncoder()
+    
+    func actionEnter() {
+        let message = EnterMessage()
+        let jsonData = try! encoder.encode(message)
+        let jsonString = String(data: jsonData, encoding: .utf8)!
+        socket.write(string: jsonString)
+    }
+    
+    func actionLeave() {
+        let message = LeaveMessage()
+        let jsonData = try! encoder.encode(message)
+        let jsonString = String(data: jsonData, encoding: .utf8)!
+        socket.write(string: jsonString)
+    }
+    
+    func actionTeleport(point: CGPoint) {
+        let message = InputMessage(x: Float(point.x), y: Float(point.y))
+        let jsonData = try! encoder.encode(message)
+        let jsonString = String(data: jsonData, encoding: .utf8)!
+        socket.write(string: jsonString)
     }
     
     // MARK: - WebSocketDelegate
@@ -58,6 +87,25 @@ class WebSocketService: WebSocketDelegate {
     
     func websocketDidReceiveMessage(socket: WebSocketClient, text: String) {
         DDLogInfo("\(#function): \(text)")
+        let data = text.data(using: .utf8)!
+        let json = try! JSONSerialization.jsonObject(with: data, options: [])
+        let message = try! MessageDecodable.decode(json)
+        switch message.type {
+        case "teleport":
+            let concrete = try! TeleportDecodable.decode(message.body)
+            let plain = concrete.poso()
+            delegate?.didTeleport(service: self, teleport: plain)
+        case "enter":
+            let concrete = try! EnterDecodable.decode(message.body)
+            let plain = concrete.poso()
+            delegate?.didEnter(service: self, body: plain)
+        case "leave":
+            let concrete = try! LeaveDecodable.decode(message.body)
+            let plain = concrete.poso()
+            delegate?.didLeave(service: self, body: plain)
+        default:
+            DDLogError("Unknown message type = \(message.type)")
+        }
     }
     
     func websocketDidReceiveData(socket: WebSocketClient, data: Data) {
