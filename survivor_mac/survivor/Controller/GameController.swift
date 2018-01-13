@@ -39,8 +39,7 @@ class GameController: NSViewController, Identifiable, Ensurable, WebSocketServic
             sceneNode.entities = scene.entities
             sceneNode.graphs = scene.graphs
             
-            // Set the scale mode to scale to fit the window
-            sceneNode.scaleMode = .aspectFill
+            sceneNode.scaleMode = .resizeFill
             
             // Present the scene
             let view = self.skView!

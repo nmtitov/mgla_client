@@ -15,9 +15,18 @@ class GameScene: SKScene {
     var graphs = [String: GKGraph]()
     
     var nodes = [SKNode]()
+    var cam: SKCameraNode!
+    var player: SKNode?
     
     override func sceneDidLoad() {
         
+    }
+    
+    override func didMove(to view: SKView) {
+        super.didMove(to: view)
+        cam = SKCameraNode()
+        camera = cam
+        addChild(cam)
     }
     
     func touchDown(atPoint pos: CGPoint) {
@@ -33,7 +42,10 @@ class GameScene: SKScene {
     }
     
     override func update(_ currentTime: TimeInterval) {
-        // Called before each frame is rendered
+        super.update(currentTime)
+        if let player = player {
+            cam.position = player.position
+        }
     }
     
     // MARK: - API
@@ -50,6 +62,9 @@ class GameScene: SKScene {
             node.position = point
         } else {
             let node = createNode(id: id, point: point)
+            if player == nil {
+                player = node
+            }
             nodes.append(node)
             addChild(node)
         }
@@ -100,4 +115,5 @@ class GameScene: SKScene {
         node.zPosition = 1000
         return node
     }
+    
 }
