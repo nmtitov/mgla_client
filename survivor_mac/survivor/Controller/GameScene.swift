@@ -55,7 +55,7 @@ class GameScene: SKScene {
         }
     }
     
-    func actionLoad(_ assets: [Asset]) {
+    func actionLoad(assets: [Asset], blocks: [Block]) {
         for asset in assets {
             let image = NSImage(named: .init(rawValue: asset.name))!
             let texture = SKTexture(image: image)
@@ -65,6 +65,13 @@ class GameScene: SKScene {
             sprite.zPosition = CGFloat(asset.z)
             sprite.position = asset.position
             addChild(sprite)
+        }
+        for block in blocks {
+            let node = SKShapeNode(rect: CGRect(origin: block.position, size: block.size))
+            node.name = "\(block.type)"
+            node.fillColor = .black
+            node.zPosition = 100
+            addChild(node)
         }
     }
     
@@ -91,7 +98,7 @@ class GameScene: SKScene {
         node.name = "\(id)"
         node.fillColor = .white
         node.position = point
-        node.zPosition = 100
+        node.zPosition = 1000
         return node
     }
 }
