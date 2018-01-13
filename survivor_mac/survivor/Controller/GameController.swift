@@ -94,6 +94,7 @@ class GameController: NSViewController, Identifiable, Ensurable, WebSocketServic
     
     func didReceiveMap(service: WebSocketService, body: Map) {
         DDLogInfo("\(#function)")
+        scene.actionLoad(body.assets)
     }
     
     func didLeave(service: WebSocketService, body: Leave) {
