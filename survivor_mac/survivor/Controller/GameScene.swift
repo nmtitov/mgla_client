@@ -29,15 +29,15 @@ class GameScene: SKScene {
         addChild(cam)
     }
     
-    func touchDown(atPoint pos: CGPoint) {
-        AppDelegate.shared.webSocketService.actionTeleport(point: pos)
+    func touchDown(atPoint point: CGPoint) {
+        AppDelegate.shared.webSocketService.actionTeleport(point: point)
     }
     
-    func touchMoved(toPoint pos: CGPoint) {
+    func touchMoved(toPoint point: CGPoint) {
         
     }
     
-    func touchUp(atPoint pos: CGPoint) {
+    func touchUp(atPoint point: CGPoint) {
         
     }
     
