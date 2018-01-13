@@ -13,12 +13,16 @@ import GameplayKit
 class GameController: NSViewController, Identifiable, Ensurable, WebSocketServiceDelegate {
     
     @IBOutlet var skView: SKView!
+    @IBOutlet weak var leaveButton: NSButton!
     
     var scene: GameScene!
     
     func ensure() {
         assert(skView != nil)
         assert(scene != nil)
+        assert(leaveButton != nil)
+        assert(leaveButton.target != nil)
+        assert(leaveButton.action != nil)
     }
     
     override func viewDidLoad() {
@@ -64,7 +68,7 @@ class GameController: NSViewController, Identifiable, Ensurable, WebSocketServic
     
     // MARK: - Actions
     
-    @IBAction func actionDisconnect(_ sender: Any) {
+    @IBAction func actionLeave(_ sender: Any) {
         
     }
     

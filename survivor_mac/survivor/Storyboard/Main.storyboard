@@ -712,13 +712,13 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="236-5V-tOH">
-                                <rect key="frame" x="14" y="222" width="109" height="32"/>
-                                <buttonCell key="cell" type="push" title="Disconnect" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="B5L-cB-eO4">
+                                <rect key="frame" x="14" y="222" width="76" height="32"/>
+                                <buttonCell key="cell" type="push" title="Leave" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="B5L-cB-eO4">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="actionDisconnect:" target="XfG-lQ-9wD" id="ole-H6-GW0"/>
+                                    <action selector="actionLeave:" target="XfG-lQ-9wD" id="bwF-OW-3kA"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -728,6 +728,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="leaveButton" destination="236-5V-tOH" id="KDT-BQ-zpu"/>
                         <outlet property="skView" destination="m2S-Jp-Qdl" id="4hf-cz-LUt"/>
                     </connections>
                 </viewController>
@@ -750,13 +751,13 @@
                                         <rect key="frame" x="0.0" y="139" width="100" height="61"/>
                                         <subviews>
                                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nRE-lb-yjP">
-                                                <rect key="frame" x="4" y="13" width="92" height="32"/>
-                                                <buttonCell key="cell" type="push" title="Connect" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ZHh-0B-b6C">
+                                                <rect key="frame" x="14" y="13" width="72" height="32"/>
+                                                <buttonCell key="cell" type="push" title="Enter" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ZHh-0B-b6C">
                                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                     <font key="font" metaFont="system"/>
                                                 </buttonCell>
                                                 <connections>
-                                                    <action selector="actionConnect:" target="TQ7-Dj-Dba" id="4ls-Un-yYZ"/>
+                                                    <action selector="actionEnter:" target="TQ7-Dj-Dba" id="5gr-1Y-7ot"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -822,6 +823,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="enterButton" destination="nRE-lb-yjP" id="51h-5i-kUT"/>
                         <segue destination="XfG-lQ-9wD" kind="show" identifier="GameController" id="UyM-Mn-LCd"/>
                     </connections>
                 </viewController>

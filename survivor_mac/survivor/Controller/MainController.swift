@@ -11,8 +11,12 @@ import CocoaLumberjack
 
 class MainController: NSViewController, Identifiable, Ensurable {
 
+    @IBOutlet weak var enterButton: NSButton!
+    
     func ensure() {
-        
+        assert(enterButton != nil)
+        assert(enterButton.target != nil)
+        assert(enterButton.action != nil)
     }
     
     override func viewDidLoad() {
@@ -22,7 +26,7 @@ class MainController: NSViewController, Identifiable, Ensurable {
     
     // MARK: - Actions
     
-    @IBAction func actionConnect(_ sender: Any) {
+    @IBAction func actionEnter(_ sender: Any) {
         performGameControllerSegue()
     }
     
