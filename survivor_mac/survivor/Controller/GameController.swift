@@ -31,7 +31,7 @@ class GameController: NSViewController, Identifiable, Ensurable, WebSocketServic
             // Load 'GameScene.sks' as a GKScene. This provides gameplay related content
             // including entities and graphs.
             let scene = GKScene(fileNamed: "GameScene")!
-            
+
             // Get the SKScene from the loaded GKScene
             let sceneNode = scene.rootNode as! GameScene
             
