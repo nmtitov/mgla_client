@@ -75,7 +75,7 @@ class GameScene: SKScene, Ensurable {
             let action = SKAction.move(to: point, duration: 0.33)
             node.run(action)
         } else {
-            let node = createNode(id: id, point: point)
+            let node = createMageNode(id: id, point: point)
             if player == nil {
                 player = node
             }
@@ -122,6 +122,25 @@ class GameScene: SKScene, Ensurable {
         node.fillColor = .white
         node.position = point
         node.zPosition = CGFloat(NodeLevel.other_player.rawValue)
+        return node
+    }
+    
+    private func createMageNode(id: Int, point: CGPoint) -> SKNode {
+        let image1 = NSImage(named: .init(rawValue: "mage-walk1"))!
+        let textureWalk1 = SKTexture(image: image1)
+        
+        let image2 = NSImage(named: .init(rawValue: "mage-walk2"))!
+        let textureWalk2 = SKTexture(image: image2)
+        
+        let node = SKSpriteNode(texture: textureWalk1)
+        node.name = "\(id)"
+        node.anchorPoint = CGPoint(x: 0.5, y: 0.0)
+        node.zPosition = CGFloat(NodeLevel.other_player.rawValue)
+        node.position = point
+        
+        let walkAction = SKAction.repeatForever(SKAction.animate(with: [textureWalk1, textureWalk2], timePerFrame: 0.2))
+        node.run(walkAction)
+
         return node
     }
     
