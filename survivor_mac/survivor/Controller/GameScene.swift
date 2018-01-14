@@ -139,7 +139,8 @@ class GameScene: SKScene, Ensurable {
     private func createBlockNode(from block: Block) -> SKShapeNode {
         let node = SKShapeNode(rect: CGRect(origin: block.position, size: block.size))
         node.name = "\(block.type)"
-        node.fillColor = .black
+        node.fillColor = .clear
+        node.strokeColor = .black
         node.zPosition = CGFloat(NodeLevel.block.rawValue)
         return node
     }
