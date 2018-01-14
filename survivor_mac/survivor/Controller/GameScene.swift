@@ -72,6 +72,8 @@ class GameScene: SKScene, Ensurable {
         })
         
         if let node = node {
+            let direction = CGPoint(x: point.x - node.position.x, y: point.y - node.position.y)
+            node.xScale = direction.x > 0 ? 1 : -1
             let action = SKAction.move(to: point, duration: 0.33)
             node.run(action)
         } else {
