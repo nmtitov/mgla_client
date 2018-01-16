@@ -111,6 +111,11 @@ class GameScene: SKScene, Ensurable {
         self.touchDown(atPoint: clickLocation)
     }
     
+    override func rightMouseDown(with event: NSEvent) {
+        let clickLocation = event.location(in: self)
+        self.touchDown(atPoint: clickLocation)
+    }
+    
     override func mouseDragged(with event: NSEvent) {
         let clickLocation = event.location(in: self)
         self.touchMoved(toPoint: clickLocation)

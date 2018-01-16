@@ -106,3 +106,9 @@ class GameController: NSViewController, Identifiable, Ensurable, WebSocketServic
     }
     
 }
+
+extension SKView {
+    open override func rightMouseDown(with event: NSEvent) {
+        scene?.rightMouseDown(with: event)
+    }
+}

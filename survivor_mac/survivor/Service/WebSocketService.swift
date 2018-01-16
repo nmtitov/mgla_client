@@ -87,7 +87,6 @@ class WebSocketService: WebSocketDelegate {
     }
     
     func websocketDidReceiveMessage(socket: WebSocketClient, text: String) {
-        DDLogInfo("\(#function): \(text)")
         let data = text.data(using: .utf8)!
         let json = try! JSONSerialization.jsonObject(with: data, options: [])
         let message = try! MessageDecodable.decode(json)
