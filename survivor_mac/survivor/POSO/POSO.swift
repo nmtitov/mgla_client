@@ -39,4 +39,5 @@ struct Leave {
 struct Teleport {
     let id: Int
     let point: CGPoint
+    let newState: String?
 }

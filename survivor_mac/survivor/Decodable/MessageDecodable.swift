@@ -197,20 +197,23 @@ struct BlockDecodable: Decodable {
 struct TeleportDecodable: Decodable {
     let id: Int
     let point: PointDecodable
+    let newState: String?
     
-    init(id: Int, point: PointDecodable) {
+    init(id: Int, point: PointDecodable, newState: String?) {
         self.id = id
         self.point = point
+        self.newState = newState
     }
     
     static func decode(_ json: Any) throws -> TeleportDecodable {
         return try TeleportDecodable(
             id: json => "id",
-            point: json => "point"
+            point: json => "point",
+            newState: json => "new_state"
         )
     }
     
     func poso() -> Teleport {
-        return Teleport(id: id, point: CGPoint(x: point.x, y: point.y))
+        return Teleport(id: id, point: CGPoint(x: point.x, y: point.y), newState: newState)
     }
 }

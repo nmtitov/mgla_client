@@ -67,15 +67,31 @@ class GameScene: SKScene, Ensurable {
         let id = teleport.id
         let point = teleport.point
         
-        let node = nodes.first(where:{ (node) -> Bool in
+        let existing = nodes.first(where:{ (node) -> Bool in
             return node.name == "\(id)"
         })
         
-        if let node = node {
+        if let node = existing {
             let direction = CGPoint(x: point.x - node.position.x, y: point.y - node.position.y)
             node.xScale = direction.x > 0 ? 1 : -1
-            let action = SKAction.move(to: point, duration: 0.33)
-            node.run(action)
+            let action = SKAction.move(to: point, duration: 0.16)
+            let seq = SKAction.sequence([action, SKAction.customAction(withDuration: 0, actionBlock: { (_, _) in
+                let node = self.nodes.first(where:{ (node) -> Bool in
+                    return node.name == "\(id)"
+                })
+                if let node = node, let newState = teleport.newState {
+                    switch newState {
+                    case "idle":
+                        node.removeAction(forKey: "walk")
+                        break
+                    case "walk":
+                        break
+                    default:
+                        break
+                    }
+                }
+            })])
+            node.run(seq)
         } else {
             let node = createMageNode(id: id, point: point)
             if player == nil {
@@ -83,6 +99,28 @@ class GameScene: SKScene, Ensurable {
             }
             nodes.append(node)
             addChild(node)
+        }
+        let node = self.nodes.first(where:{ (node) -> Bool in
+            return node.name == "\(id)"
+        })
+        if let node = node, let newState = teleport.newState {
+            switch newState {
+            case "idle":
+                break
+            case "walk":
+                node.removeAllActions()
+                let image1 = NSImage(named: .init(rawValue: "mage-walk1"))!
+                let textureWalk1 = SKTexture(image: image1)
+                
+                let image2 = NSImage(named: .init(rawValue: "mage-walk2"))!
+                let textureWalk2 = SKTexture(image: image2)
+                
+                let walkAction = SKAction.repeatForever(SKAction.animate(with: [textureWalk2, textureWalk1], timePerFrame: 0.2))
+                node.run(walkAction, withKey: "walk")
+                break
+            default:
+                break
+            }
         }
     }
     
@@ -144,9 +182,6 @@ class GameScene: SKScene, Ensurable {
         node.anchorPoint = CGPoint(x: 0.5, y: 0.0)
         node.zPosition = CGFloat(NodeLevel.other_player.rawValue)
         node.position = point
-        
-        let walkAction = SKAction.repeatForever(SKAction.animate(with: [textureWalk1, textureWalk2], timePerFrame: 0.2))
-        node.run(walkAction)
 
         return node
     }
