@@ -89,6 +89,7 @@ class GameController: NSViewController, Identifiable, Ensurable, WebSocketServic
     
     func didEnter(service: WebSocketService, body: Enter) {
         DDLogInfo("\(#function)")
+        scene.actionEnter()
     }
     
     func didReceiveMap(service: WebSocketService, body: Map) {

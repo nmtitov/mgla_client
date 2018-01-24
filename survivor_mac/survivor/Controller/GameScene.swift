@@ -63,6 +63,10 @@ class GameScene: SKScene, Ensurable {
     
     // MARK: - API
     
+    func actionEnter() {
+        
+    }
+    
     func actionTeleport(_ teleport: Teleport) {
         let id = teleport.id
         let point = teleport.point
