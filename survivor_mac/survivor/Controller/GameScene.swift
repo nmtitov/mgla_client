@@ -63,8 +63,10 @@ class GameScene: SKScene, Ensurable {
     
     // MARK: - API
     
-    func actionEnter() {
-        
+    var myId: Int?
+    
+    func actionEnter(body: Enter) {
+        myId = body.id
     }
     
     func actionTeleport(_ teleport: Teleport) {
@@ -98,8 +100,10 @@ class GameScene: SKScene, Ensurable {
             node.run(seq)
         } else {
             let node = createMageNode(id: id, point: point)
-            if player == nil {
-                player = node
+            if let myId = myId {
+                if player == nil, myId == id {
+                    player = node
+                }
             }
             nodes.append(node)
             addChild(node)

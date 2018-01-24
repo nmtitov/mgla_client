@@ -89,7 +89,7 @@ class GameController: NSViewController, Identifiable, Ensurable, WebSocketServic
     
     func didEnter(service: WebSocketService, body: Enter) {
         DDLogInfo("\(#function)")
-        scene.actionEnter()
+        scene.actionEnter(body: body)
     }
     
     func didReceiveMap(service: WebSocketService, body: Map) {
@@ -103,6 +103,7 @@ class GameController: NSViewController, Identifiable, Ensurable, WebSocketServic
     }
     
     func didTeleport(service: WebSocketService, teleport: Teleport) {
+        DDLogInfo("\(#function)")
         scene.actionTeleport(teleport)
     }
     
