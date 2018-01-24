@@ -102,6 +102,7 @@ class GameScene: SKScene, Ensurable {
             let node = createMageNode(id: id, point: point)
             if let myId = myId {
                 if player == nil, myId == id {
+                    node.zPosition = CGFloat(NodeLevel.player.rawValue)
                     player = node
                 }
             }
