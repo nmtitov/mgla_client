@@ -32,7 +32,8 @@ class WebSocketService: WebSocketDelegate {
     }
     
     init() {
-        let url = URL(string: "ws://localhost:8080/websocket")!
+        let url = URL(string: "ws://localhost:9000/websocket")!
+//        let url = URL(string: "ws://titov.link:9000/websocket")!
         let request = URLRequest(url: url)
         socket = WebSocket(request: request)
         socket.delegate = self
