@@ -87,13 +87,24 @@ class GameController: NSViewController, Identifiable, Ensurable, WebSocketServic
         
     }
     
+    func didId(service: WebSocketService, body: Id) {
+        DDLogInfo("\(#function)")
+        scene.actionId(body: body)
+    }
+    
+    func didInit(service: WebSocketService, body: Init) {
+        DDLogInfo("\(#function)")
+        scene.actionInit(body: body)
+    }
+    
     func didEnter(service: WebSocketService, body: Enter) {
         DDLogInfo("\(#function)")
+        scene.actionEnter(body: body)
     }
     
     func didReceiveMap(service: WebSocketService, body: Map) {
         DDLogInfo("\(#function)")
-        scene.actionLoad(frontier: body.size, assets: body.assets, blocks: body.blocks)
+        scene.actionLoad(frontier: body.size.cgSize(), assets: body.assets, blocks: body.blocks)
     }
     
     func didLeave(service: WebSocketService, body: Leave) {
@@ -102,7 +113,14 @@ class GameController: NSViewController, Identifiable, Ensurable, WebSocketServic
     }
     
     func didTeleport(service: WebSocketService, teleport: Teleport) {
+        DDLogInfo("\(#function)")
         scene.actionTeleport(teleport)
     }
     
+}
+
+extension SKView {
+    open override func rightMouseDown(with event: NSEvent) {
+        scene?.rightMouseDown(with: event)
+    }
 }

@@ -14,6 +14,8 @@ protocol WebSocketServiceDelegate {
     
     func didConnect(service: WebSocketService)
     func didDisconnect(service: WebSocketService)
+    func didId(service: WebSocketService, body: Id)
+    func didInit(service: WebSocketService, body: Init)
     func didEnter(service: WebSocketService, body: Enter)
     func didReceiveMap(service: WebSocketService, body: Map)
     func didLeave(service: WebSocketService, body: Leave)
@@ -31,8 +33,13 @@ class WebSocketService: WebSocketDelegate {
         timer?.invalidate()
     }
     
+    private static var urlString: String {
+        return "ws://localhost:9000/websocket"
+//        let url = URL(string: "ws://titov.link:9000/websocket")!
+    }
+    
     init() {
-        let url = URL(string: "ws://localhost:8080/websocket")!
+        let url = URL(string: WebSocketService.urlString)!
         let request = URLRequest(url: url)
         socket = WebSocket(request: request)
         socket.delegate = self
@@ -87,27 +94,28 @@ class WebSocketService: WebSocketDelegate {
     }
     
     func websocketDidReceiveMessage(socket: WebSocketClient, text: String) {
-        DDLogInfo("\(#function): \(text)")
         let data = text.data(using: .utf8)!
         let json = try! JSONSerialization.jsonObject(with: data, options: [])
-        let message = try! MessageDecodable.decode(json)
+        let message = try! Message.decode(json)
         switch message.type {
+        case "id":
+            let b = try! Id.decode(message.body)
+            delegate?.didId(service: self, body: b)
         case "teleport":
-            let concrete = try! TeleportDecodable.decode(message.body)
-            let plain = concrete.poso()
-            delegate?.didTeleport(service: self, teleport: plain)
+            let concrete = try! Teleport.decode(message.body)
+            delegate?.didTeleport(service: self, teleport: concrete)
+        case "init":
+            let b = try! Init.decode(message.body)
+            delegate?.didInit(service: self, body: b)
         case "enter":
-            let concrete = try! EnterDecodable.decode(message.body)
-            let plain = concrete.poso()
-            delegate?.didEnter(service: self, body: plain)
+            let concrete = try! Enter.decode(message.body)
+            delegate?.didEnter(service: self, body: concrete)
         case "map":
-            let concrete = try! MapDecodable.decode(message.body)
-            let plain = concrete.poso()
-            delegate?.didReceiveMap(service: self, body: plain)
+            let concrete = try! Map.decode(message.body)
+            delegate?.didReceiveMap(service: self, body: concrete)
         case "leave":
-            let concrete = try! LeaveDecodable.decode(message.body)
-            let plain = concrete.poso()
-            delegate?.didLeave(service: self, body: plain)
+            let concrete = try! Leave.decode(message.body)
+            delegate?.didLeave(service: self, body: concrete)
         default:
             DDLogError("Unknown message type = \(message.type)")
         }

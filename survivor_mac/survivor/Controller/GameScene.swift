@@ -63,24 +63,75 @@ class GameScene: SKScene, Ensurable {
     
     // MARK: - API
     
+    var serverId: Int!
+    
+    func actionId(body: Id) {
+        serverId = body.id
+    }
+    
+    func actionInit(body: Init) {
+        let n = createMageNode(id: body.id, point: body.position.cgPoint())
+        if body.id == serverId {
+            n.zPosition = CGFloat(NodeLevel.player.rawValue)
+            player = n
+        }
+        nodes.append(n)
+        addChild(n)
+    }
+    
+    func actionEnter(body: Enter) {
+        
+    }
+    
     func actionTeleport(_ teleport: Teleport) {
         let id = teleport.id
         let point = teleport.point
         
-        let node = nodes.first(where:{ (node) -> Bool in
+        guard let node = nodes.first(where:{ (node) -> Bool in
             return node.name == "\(id)"
-        })
+        }) else {
+            return
+        }
         
-        if let node = node {
-            let action = SKAction.move(to: point, duration: 0.33)
-            node.run(action)
-        } else {
-            let node = createNode(id: id, point: point)
-            if player == nil {
-                player = node
+        let direction = CGPoint(x: CGFloat(point.x) - node.position.x, y: CGFloat(point.y) - node.position.y)
+        node.xScale = direction.x > 0 ? 1 : -1
+        let action = SKAction.move(to: point.cgPoint(), duration: 0.16)
+        let seq = SKAction.sequence([action, SKAction.customAction(withDuration: 0, actionBlock: { (_, _) in
+            let node = self.nodes.first(where:{ (node) -> Bool in
+                return node.name == "\(id)"
+            })
+            if let node = node, let newState = teleport.newState {
+                switch newState {
+                case "idle":
+                    node.removeAction(forKey: "walk")
+                    break
+                case "walk":
+                    break
+                default:
+                    break
+                }
             }
-            nodes.append(node)
-            addChild(node)
+        })])
+        node.run(seq)
+
+        if let newState = teleport.newState {
+            switch newState {
+            case "idle":
+                break
+            case "walk":
+                node.removeAllActions()
+                let image1 = NSImage(named: .init(rawValue: "mage-walk1"))!
+                let textureWalk1 = SKTexture(image: image1)
+                
+                let image2 = NSImage(named: .init(rawValue: "mage-walk2"))!
+                let textureWalk2 = SKTexture(image: image2)
+                
+                let walkAction = SKAction.repeatForever(SKAction.animate(with: [textureWalk2, textureWalk1], timePerFrame: 0.2))
+                node.run(walkAction, withKey: "walk")
+                break
+            default:
+                break
+            }
         }
     }
     
@@ -109,6 +160,11 @@ class GameScene: SKScene, Ensurable {
         self.touchDown(atPoint: clickLocation)
     }
     
+    override func rightMouseDown(with event: NSEvent) {
+        let clickLocation = event.location(in: self)
+        self.touchDown(atPoint: clickLocation)
+    }
+    
     override func mouseDragged(with event: NSEvent) {
         let clickLocation = event.location(in: self)
         self.touchMoved(toPoint: clickLocation)
@@ -125,19 +181,35 @@ class GameScene: SKScene, Ensurable {
         return node
     }
     
+    private func createMageNode(id: Int, point: CGPoint) -> SKNode {
+        let image1 = NSImage(named: .init(rawValue: "mage-walk1"))!
+        let textureWalk1 = SKTexture(image: image1)
+        
+        let image2 = NSImage(named: .init(rawValue: "mage-walk2"))!
+        let textureWalk2 = SKTexture(image: image2)
+        
+        let node = SKSpriteNode(texture: textureWalk1)
+        node.name = "\(id)"
+        node.anchorPoint = CGPoint(x: 0.5, y: 0.0)
+        node.zPosition = CGFloat(NodeLevel.other_player.rawValue)
+        node.position = point
+
+        return node
+    }
+    
     private func createAssetNode(from asset: Asset) -> SKSpriteNode {
         let image = NSImage(named: .init(rawValue: asset.name))!
         let texture = SKTexture(image: image)
         let node = SKSpriteNode(texture: texture)
         node.anchorPoint = CGPoint.zero
-        node.size = asset.size
+        node.size = asset.size.cgSize()
         node.zPosition = CGFloat(asset.z)
-        node.position = asset.position
+        node.position = asset.position.cgPoint()
         return node
     }
     
     private func createBlockNode(from block: Block) -> SKShapeNode {
-        let node = SKShapeNode(rect: CGRect(origin: block.position, size: block.size))
+        let node = SKShapeNode(rect: CGRect(origin: block.position.cgPoint(), size: block.size.cgSize()))
         node.name = "\(block.type)"
         node.fillColor = .clear
         node.strokeColor = .black

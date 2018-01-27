@@ -12,205 +12,124 @@ import enum Decodable.DecodingError
 import Decodable
 import CocoaLumberjack
 
-struct MessageDecodable: Decodable {
+struct Message: Decodable {
     let type: String
     let body: Any
     
-    init(type: String, body: Any) {
-        self.type = type
-        self.body = body
-    }
-    
-    static func decode(_ json: Any) throws -> MessageDecodable {
-        return try MessageDecodable(
-            type: json => "type",
-            body: json => "body"
+    static func decode(_ j: Any) throws -> Message {
+        return try Message(
+            type: j => "type",
+            body: j => "body"
         )
     }
 }
 
-struct EnterDecodable: Decodable {
+struct Id: Decodable {
     let id: Int
     
-    init(id: Int) {
-        self.id = id
-    }
-    
-    static func decode(_ json: Any) throws -> EnterDecodable {
-        return try EnterDecodable(
-            id: json => "id"
+    static func decode(_ j: Any) throws -> Id {
+        return try Id(
+            id: j => "id"
         )
-    }
-    
-    func poso() -> Enter {
-        return Enter(id: id)
     }
 }
 
-struct LeaveDecodable: Decodable {
+struct Init: Decodable {
+    let id: Int
+    let name: String
+    let position: Point
+    let health_percent: Double
+    let mana_percent: Double
+    let state: String
+    
+    static func decode(_ j: Any) throws -> Init {
+        return try Init(
+            id: j => "id",
+            name: j => "name",
+            position: j => "position",
+            health_percent: j => "health_percent",
+            mana_percent: j => "mana_percent",
+            state: j => "state"
+        )
+    }
+}
+
+struct Enter: Decodable {
     let id: Int
     
-    init(id: Int) {
-        self.id = id
-    }
-    
-    static func decode(_ json: Any) throws -> LeaveDecodable {
-        return try LeaveDecodable(
-            id: json => "id"
-        )
-    }
-    
-    func poso() -> Leave {
-        return Leave(id: id)
-    }
-}
-
-//{
-//    "name": "forest",
-//    "size": {
-//        "width": 600.0,
-//        "height": 1000.0
-//    },
-//    "assets": [],
-//    "blocks": []
-//}
-
-struct MapDecodable: Decodable {
-    let name: String
-    let size: SizeDecodable
-    let assets: [AssetDecodable]
-    let blocks: [BlockDecodable]
-    
-    init(name: String, size: SizeDecodable, assets: [AssetDecodable], blocks: [BlockDecodable]) {
-        self.name = name
-        self.size = size
-        self.assets = assets
-        self.blocks = blocks
-    }
-    
-    static func decode(_ json: Any) throws -> MapDecodable {
-        return try MapDecodable(
-            name: json => "name",
-            size: json => "size",
-            assets: json => "assets",
-            blocks: json => "blocks"
-        )
-    }
-    
-    func poso() -> Map {
-        let plain_assets = assets.map { $0.poso() }
-        let plain_blocks = blocks.map { $0.poso() }
-        return Map(
-            name: name,
-            size: CGSize(width: size.width, height: size.height),
-            assets: plain_assets,
-            blocks: plain_blocks
+    static func decode(_ j: Any) throws -> Enter {
+        return try Enter(
+            id: j => "id"
         )
     }
 }
 
-//{
-//    "name": "grass",
-//    "position": {
-//        "x": 64.0,
-//        "y": 0.0
-//    },
-//    "size": {
-//        "width": 64.0,
-//        "height": 64.0
-//    },
-//    "z": 0
-//},
+struct Leave: Decodable {
+    let id: Int
+    
+    static func decode(_ j: Any) throws -> Leave {
+        return try Leave(
+            id: j => "id"
+        )
+    }
+}
 
-struct AssetDecodable: Decodable {
+struct Map: Decodable {
     let name: String
-    let position: PointDecodable
-    let size: SizeDecodable
+    let size: Size
+    let assets: [Asset]
+    let blocks: [Block]
+    
+    static func decode(_ j: Any) throws -> Map {
+        return try Map(
+            name: j => "name",
+            size: j => "size",
+            assets: j => "assets",
+            blocks: j => "blocks"
+        )
+    }
+}
+
+struct Asset: Decodable {
+    let name: String
+    let position: Point
+    let size: Size
     let z: Int
 
-    init(name: String, position: PointDecodable, size: SizeDecodable, z: Int) {
-        self.name = name
-        self.position = position
-        self.size = size
-        self.z = z
-    }
-    
-    static func decode(_ json: Any) throws -> AssetDecodable {
-        return try AssetDecodable(
-            name: json => "name",
-            position: json => "position",
-            size: json => "size",
-            z: json => "z"
-        )
-    }
-    
-    func poso() -> Asset {
-        return Asset(
-            name: name,
-            position: CGPoint(x: position.x, y: position.y),
-            size: CGSize(width: size.width, height: size.height),
-            z: z
+    static func decode(_ j: Any) throws -> Asset {
+        return try Asset(
+            name: j => "name",
+            position: j => "position",
+            size: j => "size",
+            z: j => "z"
         )
     }
 }
 
-//{
-//    "type": "block",
-//    "position": {
-//        "x": 100.0,
-//        "y": 200.0
-//    },
-//    "size": {
-//        "width": 100.0,
-//        "height": 100.0
-//    }
-//},
-
-struct BlockDecodable: Decodable {
+struct Block: Decodable {
     let type: String
-    let position: PointDecodable
-    let size: SizeDecodable
+    let position: Point
+    let size: Size
     
-    init(type: String, position: PointDecodable, size: SizeDecodable) {
-        self.type = type
-        self.position = position
-        self.size = size
-    }
-    
-    static func decode(_ json: Any) throws -> BlockDecodable {
-        return try BlockDecodable(
-            type: json => "type",
-            position: json => "position",
-            size: json => "size"
-        )
-    }
-    
-    func poso() -> Block {
-        return Block(
-            type: type,
-            position: CGPoint(x: position.x, y: position.y),
-            size: CGSize(width: size.width, height: size.height)
+    static func decode(_ j: Any) throws -> Block {
+        return try Block(
+            type: j => "type",
+            position: j => "position",
+            size: j => "size"
         )
     }
 }
 
-struct TeleportDecodable: Decodable {
+struct Teleport: Decodable {
     let id: Int
-    let point: PointDecodable
-    
-    init(id: Int, point: PointDecodable) {
-        self.id = id
-        self.point = point
-    }
-    
-    static func decode(_ json: Any) throws -> TeleportDecodable {
-        return try TeleportDecodable(
-            id: json => "id",
-            point: json => "point"
+    let point: Point
+    let newState: String?
+
+    static func decode(_ j: Any) throws -> Teleport {
+        return try Teleport(
+            id: j => "id",
+            point: j => "point",
+            newState: j => "new_state"
         )
-    }
-    
-    func poso() -> Teleport {
-        return Teleport(id: id, point: CGPoint(x: point.x, y: point.y))
     }
 }
