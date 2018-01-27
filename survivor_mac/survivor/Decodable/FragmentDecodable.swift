@@ -16,11 +16,6 @@ struct Point: Decodable {
     let x: Double
     let y: Double
 
-    init(x: Double, y: Double) {
-        self.x = x
-        self.y = y
-    }
-    
     static func decode(_ json: Any) throws -> Point {
         return try Point(
             x: json => "x",
@@ -36,11 +31,6 @@ struct Point: Decodable {
 struct Size: Decodable {
     let width: Double
     let height: Double
-    
-    init(width: Double, height: Double) {
-        self.width = width
-        self.height = height
-    }
     
     static func decode(_ json: Any) throws -> Size {
         return try Size(
