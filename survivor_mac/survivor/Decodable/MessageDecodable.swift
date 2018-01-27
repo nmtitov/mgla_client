@@ -16,10 +16,10 @@ struct Message: Decodable {
     let type: String
     let body: Any
     
-    static func decode(_ json: Any) throws -> Message {
+    static func decode(_ j: Any) throws -> Message {
         return try Message(
-            type: json => "type",
-            body: json => "body"
+            type: j => "type",
+            body: j => "body"
         )
     }
 }
@@ -47,9 +47,9 @@ struct Init: Decodable {
 struct Enter: Decodable {
     let id: Int
     
-    static func decode(_ json: Any) throws -> Enter {
+    static func decode(_ j: Any) throws -> Enter {
         return try Enter(
-            id: json => "id"
+            id: j => "id"
         )
     }
 }
@@ -57,9 +57,9 @@ struct Enter: Decodable {
 struct Leave: Decodable {
     let id: Int
     
-    static func decode(_ json: Any) throws -> Leave {
+    static func decode(_ j: Any) throws -> Leave {
         return try Leave(
-            id: json => "id"
+            id: j => "id"
         )
     }
 }
@@ -70,12 +70,12 @@ struct Map: Decodable {
     let assets: [Asset]
     let blocks: [Block]
     
-    static func decode(_ json: Any) throws -> Map {
+    static func decode(_ j: Any) throws -> Map {
         return try Map(
-            name: json => "name",
-            size: json => "size",
-            assets: json => "assets",
-            blocks: json => "blocks"
+            name: j => "name",
+            size: j => "size",
+            assets: j => "assets",
+            blocks: j => "blocks"
         )
     }
 }
@@ -86,12 +86,12 @@ struct Asset: Decodable {
     let size: Size
     let z: Int
 
-    static func decode(_ json: Any) throws -> Asset {
+    static func decode(_ j: Any) throws -> Asset {
         return try Asset(
-            name: json => "name",
-            position: json => "position",
-            size: json => "size",
-            z: json => "z"
+            name: j => "name",
+            position: j => "position",
+            size: j => "size",
+            z: j => "z"
         )
     }
 }
@@ -101,11 +101,11 @@ struct Block: Decodable {
     let position: Point
     let size: Size
     
-    static func decode(_ json: Any) throws -> Block {
+    static func decode(_ j: Any) throws -> Block {
         return try Block(
-            type: json => "type",
-            position: json => "position",
-            size: json => "size"
+            type: j => "type",
+            position: j => "position",
+            size: j => "size"
         )
     }
 }
@@ -115,11 +115,11 @@ struct Teleport: Decodable {
     let point: Point
     let newState: String?
 
-    static func decode(_ json: Any) throws -> Teleport {
+    static func decode(_ j: Any) throws -> Teleport {
         return try Teleport(
-            id: json => "id",
-            point: json => "point",
-            newState: json => "new_state"
+            id: j => "id",
+            point: j => "point",
+            newState: j => "new_state"
         )
     }
 }
