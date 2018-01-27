@@ -29,6 +29,20 @@ struct MessageDecodable: Decodable {
     }
 }
 
+struct InitDecodable: Decodable {
+    let id: Int
+    
+    init(id: Int) {
+        self.id = id
+    }
+    
+    static func decode(_ json: Any) throws -> InitDecodable {
+        return try InitDecodable(
+            id: json => "id"
+        )
+    }
+}
+
 struct EnterDecodable: Decodable {
     let id: Int
     
