@@ -94,24 +94,20 @@ class WebSocketService: WebSocketDelegate {
     func websocketDidReceiveMessage(socket: WebSocketClient, text: String) {
         let data = text.data(using: .utf8)!
         let json = try! JSONSerialization.jsonObject(with: data, options: [])
-        let message = try! MessageDecodable.decode(json)
+        let message = try! Message.decode(json)
         switch message.type {
         case "teleport":
-            let concrete = try! TeleportDecodable.decode(message.body)
-            let plain = concrete.poso()
-            delegate?.didTeleport(service: self, teleport: plain)
+            let concrete = try! Teleport.decode(message.body)
+            delegate?.didTeleport(service: self, teleport: concrete)
         case "enter":
-            let concrete = try! EnterDecodable.decode(message.body)
-            let plain = concrete.poso()
-            delegate?.didEnter(service: self, body: plain)
+            let concrete = try! Enter.decode(message.body)
+            delegate?.didEnter(service: self, body: concrete)
         case "map":
-            let concrete = try! MapDecodable.decode(message.body)
-            let plain = concrete.poso()
-            delegate?.didReceiveMap(service: self, body: plain)
+            let concrete = try! Map.decode(message.body)
+            delegate?.didReceiveMap(service: self, body: concrete)
         case "leave":
-            let concrete = try! LeaveDecodable.decode(message.body)
-            let plain = concrete.poso()
-            delegate?.didLeave(service: self, body: plain)
+            let concrete = try! Leave.decode(message.body)
+            delegate?.didLeave(service: self, body: concrete)
         default:
             DDLogError("Unknown message type = \(message.type)")
         }

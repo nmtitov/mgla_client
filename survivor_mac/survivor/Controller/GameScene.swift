@@ -78,9 +78,9 @@ class GameScene: SKScene, Ensurable {
         })
         
         if let node = existing {
-            let direction = CGPoint(x: point.x - node.position.x, y: point.y - node.position.y)
+            let direction = CGPoint(x: CGFloat(point.x) - node.position.x, y: CGFloat(point.y) - node.position.y)
             node.xScale = direction.x > 0 ? 1 : -1
-            let action = SKAction.move(to: point, duration: 0.16)
+            let action = SKAction.move(to: point.cgPoint(), duration: 0.16)
             let seq = SKAction.sequence([action, SKAction.customAction(withDuration: 0, actionBlock: { (_, _) in
                 let node = self.nodes.first(where:{ (node) -> Bool in
                     return node.name == "\(id)"
@@ -99,7 +99,7 @@ class GameScene: SKScene, Ensurable {
             })])
             node.run(seq)
         } else {
-            let node = createMageNode(id: id, point: point)
+            let node = createMageNode(id: id, point: point.cgPoint())
             if let myId = myId {
                 if player == nil, myId == id {
                     node.zPosition = CGFloat(NodeLevel.player.rawValue)
@@ -200,14 +200,14 @@ class GameScene: SKScene, Ensurable {
         let texture = SKTexture(image: image)
         let node = SKSpriteNode(texture: texture)
         node.anchorPoint = CGPoint.zero
-        node.size = asset.size
+        node.size = asset.size.cgSize()
         node.zPosition = CGFloat(asset.z)
-        node.position = asset.position
+        node.position = asset.position.cgPoint()
         return node
     }
     
     private func createBlockNode(from block: Block) -> SKShapeNode {
-        let node = SKShapeNode(rect: CGRect(origin: block.position, size: block.size))
+        let node = SKShapeNode(rect: CGRect(origin: block.position.cgPoint(), size: block.size.cgSize()))
         node.name = "\(block.type)"
         node.fillColor = .clear
         node.strokeColor = .black

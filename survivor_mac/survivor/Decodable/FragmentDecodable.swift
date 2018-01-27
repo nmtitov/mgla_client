@@ -12,7 +12,7 @@ import enum Decodable.DecodingError
 import Decodable
 import CocoaLumberjack
 
-struct PointDecodable: Decodable {
+struct Point: Decodable {
     let x: Double
     let y: Double
 
@@ -21,15 +21,19 @@ struct PointDecodable: Decodable {
         self.y = y
     }
     
-    static func decode(_ json: Any) throws -> PointDecodable {
-        return try PointDecodable(
+    static func decode(_ json: Any) throws -> Point {
+        return try Point(
             x: json => "x",
             y: json => "y"
         )
     }
+    
+    func cgPoint() -> CGPoint {
+        return CGPoint(x: x, y: y)
+    }
 }
 
-struct SizeDecodable: Decodable {
+struct Size: Decodable {
     let width: Double
     let height: Double
     
@@ -38,10 +42,14 @@ struct SizeDecodable: Decodable {
         self.height = height
     }
     
-    static func decode(_ json: Any) throws -> SizeDecodable {
-        return try SizeDecodable(
+    static func decode(_ json: Any) throws -> Size {
+        return try Size(
             width: json => "width",
             height: json => "height"
         )
+    }
+    
+    func cgSize() -> CGSize {
+        return CGSize(width: width, height: height)
     }
 }
