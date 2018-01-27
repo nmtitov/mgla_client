@@ -31,14 +31,20 @@ struct Message: Decodable {
 
 struct Init: Decodable {
     let id: Int
+    let name: String
+    let position: Point
+    let health_percent: Double
+    let mana_percent: Double
+    let state: String
     
-    init(id: Int) {
-        self.id = id
-    }
-    
-    static func decode(_ json: Any) throws -> Init {
+    static func decode(_ j: Any) throws -> Init {
         return try Init(
-            id: json => "id"
+            id: j => "id",
+            name: j => "name",
+            position: j => "position",
+            health_percent: j => "health_percent",
+            mana_percent: j => "mana_percent",
+            state: j => "state"
         )
     }
 }
