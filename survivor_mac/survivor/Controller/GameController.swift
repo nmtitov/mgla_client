@@ -87,6 +87,16 @@ class GameController: NSViewController, Identifiable, Ensurable, WebSocketServic
         
     }
     
+    func didId(service: WebSocketService, body: Id) {
+        DDLogInfo("\(#function)")
+        scene.actionId(body: body)
+    }
+    
+    func didInit(service: WebSocketService, body: Init) {
+        DDLogInfo("\(#function)")
+        scene.actionInit(body: body)
+    }
+    
     func didEnter(service: WebSocketService, body: Enter) {
         DDLogInfo("\(#function)")
         scene.actionEnter(body: body)

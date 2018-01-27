@@ -24,6 +24,16 @@ struct Message: Decodable {
     }
 }
 
+struct Id: Decodable {
+    let id: Int
+    
+    static func decode(_ j: Any) throws -> Id {
+        return try Id(
+            id: j => "id"
+        )
+    }
+}
+
 struct Init: Decodable {
     let id: Int
     let name: String

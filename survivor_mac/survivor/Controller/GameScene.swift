@@ -63,56 +63,58 @@ class GameScene: SKScene, Ensurable {
     
     // MARK: - API
     
-    var myId: Int?
+    var serverId: Int!
+    
+    func actionId(body: Id) {
+        serverId = body.id
+    }
+    
+    func actionInit(body: Init) {
+        let n = createMageNode(id: body.id, point: body.position.cgPoint())
+        if body.id == serverId {
+            n.zPosition = CGFloat(NodeLevel.player.rawValue)
+            player = n
+        }
+        nodes.append(n)
+        addChild(n)
+    }
     
     func actionEnter(body: Enter) {
-        myId = body.id
+        
     }
     
     func actionTeleport(_ teleport: Teleport) {
         let id = teleport.id
         let point = teleport.point
         
-        let existing = nodes.first(where:{ (node) -> Bool in
+        guard let node = nodes.first(where:{ (node) -> Bool in
             return node.name == "\(id)"
-        })
+        }) else {
+            return
+        }
         
-        if let node = existing {
-            let direction = CGPoint(x: CGFloat(point.x) - node.position.x, y: CGFloat(point.y) - node.position.y)
-            node.xScale = direction.x > 0 ? 1 : -1
-            let action = SKAction.move(to: point.cgPoint(), duration: 0.16)
-            let seq = SKAction.sequence([action, SKAction.customAction(withDuration: 0, actionBlock: { (_, _) in
-                let node = self.nodes.first(where:{ (node) -> Bool in
-                    return node.name == "\(id)"
-                })
-                if let node = node, let newState = teleport.newState {
-                    switch newState {
-                    case "idle":
-                        node.removeAction(forKey: "walk")
-                        break
-                    case "walk":
-                        break
-                    default:
-                        break
-                    }
-                }
-            })])
-            node.run(seq)
-        } else {
-            let node = createMageNode(id: id, point: point.cgPoint())
-            if let myId = myId {
-                if player == nil, myId == id {
-                    node.zPosition = CGFloat(NodeLevel.player.rawValue)
-                    player = node
+        let direction = CGPoint(x: CGFloat(point.x) - node.position.x, y: CGFloat(point.y) - node.position.y)
+        node.xScale = direction.x > 0 ? 1 : -1
+        let action = SKAction.move(to: point.cgPoint(), duration: 0.16)
+        let seq = SKAction.sequence([action, SKAction.customAction(withDuration: 0, actionBlock: { (_, _) in
+            let node = self.nodes.first(where:{ (node) -> Bool in
+                return node.name == "\(id)"
+            })
+            if let node = node, let newState = teleport.newState {
+                switch newState {
+                case "idle":
+                    node.removeAction(forKey: "walk")
+                    break
+                case "walk":
+                    break
+                default:
+                    break
                 }
             }
-            nodes.append(node)
-            addChild(node)
-        }
-        let node = self.nodes.first(where:{ (node) -> Bool in
-            return node.name == "\(id)"
-        })
-        if let node = node, let newState = teleport.newState {
+        })])
+        node.run(seq)
+
+        if let newState = teleport.newState {
             switch newState {
             case "idle":
                 break

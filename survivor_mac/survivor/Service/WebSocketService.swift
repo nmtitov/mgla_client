@@ -14,6 +14,8 @@ protocol WebSocketServiceDelegate {
     
     func didConnect(service: WebSocketService)
     func didDisconnect(service: WebSocketService)
+    func didId(service: WebSocketService, body: Id)
+    func didInit(service: WebSocketService, body: Init)
     func didEnter(service: WebSocketService, body: Enter)
     func didReceiveMap(service: WebSocketService, body: Map)
     func didLeave(service: WebSocketService, body: Leave)
@@ -96,9 +98,15 @@ class WebSocketService: WebSocketDelegate {
         let json = try! JSONSerialization.jsonObject(with: data, options: [])
         let message = try! Message.decode(json)
         switch message.type {
+        case "id":
+            let b = try! Id.decode(message.body)
+            delegate?.didId(service: self, body: b)
         case "teleport":
             let concrete = try! Teleport.decode(message.body)
             delegate?.didTeleport(service: self, teleport: concrete)
+        case "init":
+            let b = try! Init.decode(message.body)
+            delegate?.didInit(service: self, body: b)
         case "enter":
             let concrete = try! Enter.decode(message.body)
             delegate?.didEnter(service: self, body: concrete)
