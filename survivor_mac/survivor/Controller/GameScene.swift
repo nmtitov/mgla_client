@@ -43,7 +43,7 @@ class GameScene: SKScene, Ensurable {
     }
     
     func touchDown(atPoint point: CGPoint) {
-        AppDelegate.shared.webSocketService.actionTeleport(point: point)
+        AppDelegate.shared.webSocketService.actionInput(point: point)
     }
     
     func touchMoved(toPoint point: CGPoint) {
