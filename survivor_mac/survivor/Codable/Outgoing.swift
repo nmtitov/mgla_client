@@ -8,8 +8,8 @@
 
 import Foundation
 
-struct InputMessage: Codable {
-    let type = "input"
+struct ClickMessage: Codable {
+    let type = "click"
     let body: [String: Float]
     
     init(x: Float, y: Float) {
