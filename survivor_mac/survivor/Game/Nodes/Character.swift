@@ -29,7 +29,7 @@ class Character: SKSpriteNode {
         run(SKAction.repeatForever(SKAction.animate(with: [
             SKTexture(imageNamed: "mage-walk1"),
             SKTexture(imageNamed: "mage-walk2"),
-        ], timePerFrame: 0.2)), withKey: Key.walk.rawValue)
+        ], timePerFrame: 0.2, resize: true, restore: false)), withKey: Key.walk.rawValue)
     }
     
     func toggleIdleAnimation() {
