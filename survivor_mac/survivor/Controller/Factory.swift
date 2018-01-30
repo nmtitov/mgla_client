@@ -9,15 +9,6 @@
 import SpriteKit
 
 class Factory {
-    static func createNode(id: Int, point: CGPoint) -> SKNode {
-        let node = SKShapeNode(circleOfRadius: 1)
-        node.name = "\(id)"
-        node.fillColor = .white
-        node.position = point
-        node.zPosition = CGFloat(NodeLevel.other_player.rawValue)
-        return node
-    }
-    
     static func createMage(_ body: Init) -> SKNode {
         let image1 = NSImage(named: .init(rawValue: "mage-walk1"))!
         let textureWalk1 = SKTexture(image: image1)
