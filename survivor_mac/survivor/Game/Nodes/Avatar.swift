@@ -47,25 +47,25 @@ class Avatar: SKNode {
         nameLabel.position = CGPoint(x: nameLabel.position.x, y: character.frame.maxY + 16)
         
         let healthBgRect = createHealthRect(percent: 1.0)
-        let healthBgBar = SKSpriteNode(color: .darkGray, size: healthBgRect.size)
+        let healthBgBar = SKSpriteNode(color: .darkGray, size: createBarSize(percent: 1.0))
         healthBgBar.anchorPoint = CGPoint(x: 0, y: 0)
         healthBgBar.position = healthBgRect.origin
         healthBgBar.zPosition = 5
         
         let manaBgRect = createManaRect(percent: 1.0)
-        let manaBgBar = SKSpriteNode(color: .darkGray, size: manaBgRect.size)
+        let manaBgBar = SKSpriteNode(color: .darkGray, size: createBarSize(percent: 1.0))
         manaBgBar.anchorPoint = CGPoint(x: 0, y: 0)
         manaBgBar.position = manaBgRect.origin
         manaBgBar.zPosition = 5
         
         let healthRect = createHealthRect(percent: body.health_percent)
-        healthBar = SKSpriteNode(color: .red, size: healthRect.size)
+        healthBar = SKSpriteNode(color: .red, size: createBarSize(percent: body.health_percent))
         healthBar.anchorPoint = CGPoint(x: 0, y: 0)
         healthBar.position = healthRect.origin
         healthBar.zPosition = healthBgBar.zPosition + 1
         
         let manaRect = createManaRect(percent: body.mana_percent)
-        manaBar = SKSpriteNode(color: .blue, size: healthRect.size)
+        manaBar = SKSpriteNode(color: .blue, size: createBarSize(percent: body.mana_percent))
         manaBar.anchorPoint = CGPoint(x: 0, y: 0)
         manaBar.position = manaRect.origin
         manaBar.zPosition = manaBgBar.zPosition + 1
@@ -78,6 +78,10 @@ class Avatar: SKNode {
         
         addChild(healthBar)
         addChild(manaBar)
+    }
+    
+    func createBarSize(percent: Double) -> CGSize {
+        return CGSize(width: barWidth * CGFloat(percent), height: barHeight)
     }
     
     func createHealthRect(percent: Double) -> CGRect {
@@ -106,10 +110,16 @@ class Avatar: SKNode {
     }
     
     func handleHealthPercent(_ percent: Double) {
-//        healthBar.xScale = CGFloat(percent)
+        let size = createBarSize(percent: percent)
+        let action = SKAction.resize(toWidth: size.width, duration: 0.05)
+        healthBar.removeAllActions()
+        healthBar.run(action)
     }
     
     func handleManaPercent(_ percent: Double) {
-//        manaBar.xScale = CGFloat(percent)
+        let size = createBarSize(percent: percent)
+        let action = SKAction.resize(toWidth: size.width, duration: 0.05)
+        manaBar.removeAllActions()
+        manaBar.run(action)
     }
 }
