@@ -14,6 +14,7 @@ class Avatar: SKNode {
     let isPlayer: Bool
     
     /* objects */
+    let nameLabel: SKLabelNode
     let character: Character
     
     required init?(coder aDecoder: NSCoder) {
@@ -25,13 +26,21 @@ class Avatar: SKNode {
     }
     
     init(_ body: Init, isPlayer: Bool) {
+        nameLabel = SKLabelNode(text: body.name)
+        nameLabel.fontName = "Helvetica-Neue"
+        nameLabel.fontSize = 12
+        
         self.id = body.id
         self.isPlayer = isPlayer
         self.character = Character()
         super.init()
         addChild(character)
+        addChild(nameLabel)
         zPosition = (self.isPlayer ? NodeLevel.player : NodeLevel.other_player).rawValue
         position = body.position.cgPoint()
+        
+        nameLabel.zPosition = zPosition + 10
+        nameLabel.position = CGPoint(x: nameLabel.position.x, y: character.frame.maxY + 10)
     }
     
     func handleTeleport(_ body: Teleport) {
