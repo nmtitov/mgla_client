@@ -10,8 +10,8 @@ import SpriteKit
 
 class Character: SKSpriteNode {
     enum Key: String {
-        case idle
-        case walk
+        case idleAnimation
+        case walkAnimation
     }
     
     init() {
@@ -25,15 +25,17 @@ class Character: SKSpriteNode {
     }
     
     func toggleWalkAnimation() {
-        removeAllActions()
+        if action(forKey: Key.walkAnimation.rawValue) != nil {
+            return
+        }
         run(SKAction.repeatForever(SKAction.animate(with: [
             SKTexture(imageNamed: "mage-walk1"),
             SKTexture(imageNamed: "mage-walk2"),
-        ], timePerFrame: 0.2, resize: true, restore: false)), withKey: Key.walk.rawValue)
+        ], timePerFrame: 0.2, resize: true, restore: false)), withKey: Key.walkAnimation.rawValue)
     }
     
     func toggleIdleAnimation() {
-        removeAllActions()
+        removeAction(forKey: Key.walkAnimation.rawValue)
     }
     
     func look(at point: CGPoint) {
@@ -42,21 +44,5 @@ class Character: SKSpriteNode {
         }
         let inScene = scene.convert(position, from: parent)
         xScale = point.x - inScene.x > 0 ? 1 : -1
-    }
-    
-    func handleTeleport(_ body: Teleport) {
-        let b = body.point.cgPoint()
-        
-        if let newState = body.newState, newState == "walk" {
-            toggleWalkAnimation()
-        }
-        
-        let action = SKAction.move(to: b, duration: 0.16)
-        let seq = SKAction.sequence([action, SKAction.customAction(withDuration: 0, actionBlock: { (_, _) in
-            if let newState = body.newState, newState == "idle" {
-                self.toggleIdleAnimation()
-            }
-        })])
-        run(seq)
     }
 }
