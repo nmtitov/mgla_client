@@ -74,7 +74,7 @@ class WebSocketService: WebSocketDelegate {
         socket.write(string: jsonString)
     }
     
-    func actionTeleport(point: CGPoint) {
+    func actionInput(point: CGPoint) {
         let message = InputMessage(x: Float(point.x), y: Float(point.y))
         let jsonData = try! encoder.encode(message)
         let jsonString = String(data: jsonData, encoding: .utf8)!
