@@ -16,8 +16,8 @@ class Avatar: SKNode {
     /* objects */
     var nameLabel: SKLabelNode!
     var character: Character!
-    var healthBar: SKShapeNode!
-    var manaBar: SKShapeNode!
+    var healthBar: SKSpriteNode!
+    var manaBar: SKSpriteNode!
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -47,27 +47,27 @@ class Avatar: SKNode {
         nameLabel.position = CGPoint(x: nameLabel.position.x, y: character.frame.maxY + 16)
         
         let healthBgRect = createHealthRect(percent: 1.0)
-        let healthBgBar = SKShapeNode(rect: healthBgRect, cornerRadius: 0)
-        healthBgBar.strokeColor = .clear
-        healthBgBar.fillColor = .darkGray
+        let healthBgBar = SKSpriteNode(color: .darkGray, size: healthBgRect.size)
+        healthBgBar.anchorPoint = CGPoint(x: 0, y: 0)
+        healthBgBar.position = healthBgRect.origin
         healthBgBar.zPosition = 5
         
         let manaBgRect = createManaRect(percent: 1.0)
-        let manaBgBar = SKShapeNode(rect: manaBgRect, cornerRadius: 0)
-        manaBgBar.strokeColor = .clear
-        manaBgBar.fillColor = .darkGray
+        let manaBgBar = SKSpriteNode(color: .darkGray, size: manaBgRect.size)
+        manaBgBar.anchorPoint = CGPoint(x: 0, y: 0)
+        manaBgBar.position = manaBgRect.origin
         manaBgBar.zPosition = 5
         
         let healthRect = createHealthRect(percent: body.health_percent)
-        healthBar = SKShapeNode(rect: healthRect, cornerRadius: 0)
-        healthBar.strokeColor = .clear
-        healthBar.fillColor = .red
+        healthBar = SKSpriteNode(color: .red, size: healthRect.size)
+        healthBar.anchorPoint = CGPoint(x: 0, y: 0)
+        healthBar.position = healthRect.origin
         healthBar.zPosition = healthBgBar.zPosition + 1
         
         let manaRect = createManaRect(percent: body.mana_percent)
-        manaBar = SKShapeNode(rect: manaRect, cornerRadius: 0)
-        manaBar.strokeColor = .clear
-        manaBar.fillColor = .blue
+        manaBar = SKSpriteNode(color: .blue, size: healthRect.size)
+        manaBar.anchorPoint = CGPoint(x: 0, y: 0)
+        manaBar.position = manaRect.origin
         manaBar.zPosition = manaBgBar.zPosition + 1
         
         addChild(character)
