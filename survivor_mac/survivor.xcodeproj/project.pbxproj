@@ -8,14 +8,18 @@
 
 /* Begin PBXBuildFile section */
 		0BFEA5C5592BEE5ED37899DA /* Pods_survivor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31BE0BA57FAEC02E311ABC33 /* Pods_survivor.framework */; };
+		6F3B01F82020B78F007AA608 /* Factory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3B01F52020B78F007AA608 /* Factory.swift */; };
+		6F3B01F92020B78F007AA608 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 6F3B01F62020B78F007AA608 /* GameScene.sks */; };
+		6F3B01FA2020B78F007AA608 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3B01F72020B78F007AA608 /* GameScene.swift */; };
+		6F3B01FD2020B7CF007AA608 /* Avatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3B01FC2020B7CF007AA608 /* Avatar.swift */; };
+		6F3B01FF2020B989007AA608 /* Bar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3B01FE2020B989007AA608 /* Bar.swift */; };
+		6F3B02012020C2FA007AA608 /* Character.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3B02002020C2FA007AA608 /* Character.swift */; };
 		6F7C9A021FFEB2E600E4503C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F7C9A011FFEB2E600E4503C /* AppDelegate.swift */; };
 		6F7C9A071FFEB2E600E4503C /* survivor.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6F7C9A051FFEB2E600E4503C /* survivor.xcdatamodeld */; };
 		6F7C9A091FFEB2E600E4503C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6F7C9A081FFEB2E600E4503C /* Assets.xcassets */; };
 		6F7C9A181FFEB2E600E4503C /* survivorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F7C9A171FFEB2E600E4503C /* survivorTests.swift */; };
 		6F7C9A2B1FFED8C600E4503C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6F7C9A2A1FFED8C600E4503C /* Main.storyboard */; };
-		6F7C9A2F1FFED8CC00E4503C /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 6F7C9A2C1FFED8CC00E4503C /* GameScene.sks */; };
 		6F7C9A301FFED8CC00E4503C /* GameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F7C9A2D1FFED8CC00E4503C /* GameController.swift */; };
-		6F7C9A311FFED8CC00E4503C /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F7C9A2E1FFED8CC00E4503C /* GameScene.swift */; };
 		6F7C9A361FFEDA1900E4503C /* WebSocketService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F7C9A351FFEDA1900E4503C /* WebSocketService.swift */; };
 		6F7C9A3A1FFEF0A600E4503C /* FragmentDecodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F7C9A391FFEF0A600E4503C /* FragmentDecodable.swift */; };
 		6F89CF30200966560076A746 /* MessageDecodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F89CF2F200966560076A746 /* MessageDecodable.swift */; };
@@ -43,6 +47,12 @@
 		31BE0BA57FAEC02E311ABC33 /* Pods_survivor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_survivor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4805A51A6F6D897B5EE8C2C0 /* Pods-survivor.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-survivor.release.xcconfig"; path = "Pods/Target Support Files/Pods-survivor/Pods-survivor.release.xcconfig"; sourceTree = "<group>"; };
 		6399B2AECC5ABBED4FF50F91 /* Pods-survivorTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-survivorTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-survivorTests/Pods-survivorTests.debug.xcconfig"; sourceTree = "<group>"; };
+		6F3B01F52020B78F007AA608 /* Factory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Factory.swift; sourceTree = "<group>"; };
+		6F3B01F62020B78F007AA608 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
+		6F3B01F72020B78F007AA608 /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
+		6F3B01FC2020B7CF007AA608 /* Avatar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Avatar.swift; sourceTree = "<group>"; };
+		6F3B01FE2020B989007AA608 /* Bar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bar.swift; sourceTree = "<group>"; };
+		6F3B02002020C2FA007AA608 /* Character.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Character.swift; sourceTree = "<group>"; };
 		6F7C99FE1FFEB2E600E4503C /* survivor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = survivor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6F7C9A011FFEB2E600E4503C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6F7C9A061FFEB2E600E4503C /* survivor.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = survivor.xcdatamodel; sourceTree = "<group>"; };
@@ -53,9 +63,7 @@
 		6F7C9A171FFEB2E600E4503C /* survivorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = survivorTests.swift; sourceTree = "<group>"; };
 		6F7C9A191FFEB2E600E4503C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6F7C9A2A1FFED8C600E4503C /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
-		6F7C9A2C1FFED8CC00E4503C /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
 		6F7C9A2D1FFED8CC00E4503C /* GameController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameController.swift; sourceTree = "<group>"; };
-		6F7C9A2E1FFED8CC00E4503C /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		6F7C9A351FFEDA1900E4503C /* WebSocketService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketService.swift; sourceTree = "<group>"; };
 		6F7C9A391FFEF0A600E4503C /* FragmentDecodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FragmentDecodable.swift; sourceTree = "<group>"; };
 		6F89CF2F200966560076A746 /* MessageDecodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageDecodable.swift; sourceTree = "<group>"; };
@@ -100,6 +108,27 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		6F3B01F42020B78F007AA608 /* Game */ = {
+			isa = PBXGroup;
+			children = (
+				6F3B01FB2020B7BE007AA608 /* Nodes */,
+				6F3B01F72020B78F007AA608 /* GameScene.swift */,
+				6F3B01F62020B78F007AA608 /* GameScene.sks */,
+				6F3B01F52020B78F007AA608 /* Factory.swift */,
+			);
+			path = Game;
+			sourceTree = "<group>";
+		};
+		6F3B01FB2020B7BE007AA608 /* Nodes */ = {
+			isa = PBXGroup;
+			children = (
+				6F3B01FC2020B7CF007AA608 /* Avatar.swift */,
+				6F3B01FE2020B989007AA608 /* Bar.swift */,
+				6F3B02002020C2FA007AA608 /* Character.swift */,
+			);
+			path = Nodes;
+			sourceTree = "<group>";
+		};
 		6F7C99F51FFEB2E600E4503C = {
 			isa = PBXGroup;
 			children = (
@@ -129,6 +158,7 @@
 				6F7C9A381FFEF08C00E4503C /* Decodable */,
 				6F7C9A281FFED89400E4503C /* View */,
 				6F7C9A261FFED89400E4503C /* Controller */,
+				6F3B01F42020B78F007AA608 /* Game */,
 				6F7C9A291FFED8C600E4503C /* Storyboard */,
 				6F89CF412009747F0076A746 /* Common */,
 				6F7C9A081FFEB2E600E4503C /* Assets.xcassets */,
@@ -153,8 +183,6 @@
 			children = (
 				6F89CF36200973760076A746 /* MainController.swift */,
 				6F7C9A2D1FFED8CC00E4503C /* GameController.swift */,
-				6F7C9A2E1FFED8CC00E4503C /* GameScene.swift */,
-				6F7C9A2C1FFED8CC00E4503C /* GameScene.sks */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -324,8 +352,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6F3B01F92020B78F007AA608 /* GameScene.sks in Resources */,
 				6F7C9A091FFEB2E600E4503C /* Assets.xcassets in Resources */,
-				6F7C9A2F1FFED8CC00E4503C /* GameScene.sks in Resources */,
 				6F7C9A2B1FFED8C600E4503C /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -452,17 +480,21 @@
 			files = (
 				6F7C9A3A1FFEF0A600E4503C /* FragmentDecodable.swift in Sources */,
 				6F89CF4D2009747F0076A746 /* NSColor+Survivor.swift in Sources */,
+				6F3B01FA2020B78F007AA608 /* GameScene.swift in Sources */,
+				6F3B01FD2020B7CF007AA608 /* Avatar.swift in Sources */,
 				6F89CF30200966560076A746 /* MessageDecodable.swift in Sources */,
 				6F7C9A301FFED8CC00E4503C /* GameController.swift in Sources */,
 				6F89CF332009708B0076A746 /* Outgoing.swift in Sources */,
 				6F7C9A361FFEDA1900E4503C /* WebSocketService.swift in Sources */,
 				6F89CF37200973760076A746 /* MainController.swift in Sources */,
+				6F3B01FF2020B989007AA608 /* Bar.swift in Sources */,
 				6F89CF4E2009747F0076A746 /* NSColor+Hex.swift in Sources */,
 				6F89CF512009747F0076A746 /* Ensurable.swift in Sources */,
 				6F7C9A071FFEB2E600E4503C /* survivor.xcdatamodeld in Sources */,
 				6F89CF53200974A90076A746 /* Identifiable.swift in Sources */,
-				6F7C9A311FFED8CC00E4503C /* GameScene.swift in Sources */,
 				6F7C9A021FFEB2E600E4503C /* AppDelegate.swift in Sources */,
+				6F3B02012020C2FA007AA608 /* Character.swift in Sources */,
+				6F3B01F82020B78F007AA608 /* Factory.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

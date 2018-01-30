@@ -111,9 +111,9 @@ class GameController: NSViewController, Identifiable, Ensurable, WebSocketServic
         view.window?.close()
     }
     
-    func didReceiveTeleport(service: WebSocketService, teleport: Teleport) {
+    func didReceiveUpdate(service: WebSocketService, update: Update) {
         DDLogInfo("\(#function)")
-        scene.actionTeleport(teleport)
+        scene.actionUpdate(update)
     }
 }
 
