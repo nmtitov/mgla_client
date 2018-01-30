@@ -34,8 +34,6 @@ class Avatar: SKNode {
         self.isPlayer = isPlayer
         self.character = Character()
         super.init()
-        addChild(character)
-        addChild(nameLabel)
         zPosition = (self.isPlayer ? NodeLevel.player : NodeLevel.other_player).rawValue
         position = body.position.cgPoint()
         
@@ -44,20 +42,38 @@ class Avatar: SKNode {
         
         let w: CGFloat = 40
         let h: CGFloat = 4
-        let healthRect = CGRect(x: -w/2, y: character.frame.maxY + 10, width: w, height: h)
-        let healthBgBar = SKShapeNode(rect: healthRect, cornerRadius: 0)
+        let healthBgRect = CGRect(x: -w/2, y: character.frame.maxY + 10, width: w, height: h)
+        let healthBgBar = SKShapeNode(rect: healthBgRect, cornerRadius: 0)
         healthBgBar.strokeColor = .clear
         healthBgBar.fillColor = .darkGray
         healthBgBar.zPosition = 5
 
-        let manaRect = CGRect(x: -w/2, y: character.frame.maxY + 4, width: w, height: h)
-        let manaBgBar = SKShapeNode(rect: manaRect, cornerRadius: 0)
+        let manaBgRect = CGRect(x: -w/2, y: character.frame.maxY + 4, width: w, height: h)
+        let manaBgBar = SKShapeNode(rect: manaBgRect, cornerRadius: 0)
         manaBgBar.strokeColor = .clear
         manaBgBar.fillColor = .darkGray
         manaBgBar.zPosition = 5
         
+        let healthRect = CGRect(x: -w/2, y: character.frame.maxY + 10, width: w, height: h)
+        let healthBar = SKShapeNode(rect: healthRect, cornerRadius: 0)
+        healthBar.strokeColor = .clear
+        healthBar.fillColor = .red
+        healthBar.zPosition = healthBgBar.zPosition + 1
+        
+        let manaRect = CGRect(x: -w/2, y: character.frame.maxY + 4, width: w, height: h)
+        let manaBar = SKShapeNode(rect: manaRect, cornerRadius: 0)
+        manaBar.strokeColor = .clear
+        manaBar.fillColor = .blue
+        manaBar.zPosition = manaBgBar.zPosition + 1
+        
+        addChild(character)
+        addChild(nameLabel)
+
         addChild(healthBgBar)
         addChild(manaBgBar)
+        
+        addChild(healthBar)
+        addChild(manaBar)
     }
     
     func handleTeleport(_ body: Teleport) {
