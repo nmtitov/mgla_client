@@ -40,7 +40,24 @@ class Avatar: SKNode {
         position = body.position.cgPoint()
         
         nameLabel.zPosition = 10
-        nameLabel.position = CGPoint(x: nameLabel.position.x, y: character.frame.maxY + 10)
+        nameLabel.position = CGPoint(x: nameLabel.position.x, y: character.frame.maxY + 16)
+        
+        let w: CGFloat = 40
+        let h: CGFloat = 4
+        let healthRect = CGRect(x: -w/2, y: character.frame.maxY + 10, width: w, height: h)
+        let healthBgBar = SKShapeNode(rect: healthRect, cornerRadius: 0)
+        healthBgBar.strokeColor = .clear
+        healthBgBar.fillColor = .darkGray
+        healthBgBar.zPosition = 5
+
+        let manaRect = CGRect(x: -w/2, y: character.frame.maxY + 4, width: w, height: h)
+        let manaBgBar = SKShapeNode(rect: manaRect, cornerRadius: 0)
+        manaBgBar.strokeColor = .clear
+        manaBgBar.fillColor = .darkGray
+        manaBgBar.zPosition = 5
+        
+        addChild(healthBgBar)
+        addChild(manaBgBar)
     }
     
     func handleTeleport(_ body: Teleport) {
