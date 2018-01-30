@@ -9,7 +9,7 @@
 import SpriteKit
 import GameplayKit
 
-enum NodeLevel: Int {
+enum NodeLevel: CGFloat {
     case ground = 0
     case frontier = 100
     case block = 1000
@@ -22,7 +22,7 @@ class GameScene: SKScene, Ensurable {
     var entities = [GKEntity]()
     var graphs = [String: GKGraph]()
     
-    var nodes = [SKNode]()
+    var avatars = [Int: Avatar]()
     var cam: SKCameraNode!
     var player: SKNode?
     
@@ -70,12 +70,11 @@ class GameScene: SKScene, Ensurable {
     }
     
     func actionInit(body: Init) {
-        let node = Factory.createMage(body)
-        if body.id == serverId {
-            node.zPosition = CGFloat(NodeLevel.player.rawValue)
+        let node = Avatar(body, isPlayer: serverId == body.id)
+        if node.isPlayer {
             player = node
         }
-        nodes.append(node)
+        avatars[body.id] = node
         addChild(node)
     }
     
@@ -83,56 +82,11 @@ class GameScene: SKScene, Ensurable {
         
     }
     
-    func actionTeleport(_ teleport: Teleport) {
-        let id = teleport.id
-        let point = teleport.point
-        
-        guard let node = nodes.first(where:{ (node) -> Bool in
-            return node.name == "\(id)"
-        }) else {
+    func actionTeleport(_ body: Teleport) {
+        guard let node = avatars[body.id] else {
             return
         }
-        
-        let direction = CGPoint(x: CGFloat(point.x) - node.position.x, y: CGFloat(point.y) - node.position.y)
-        node.xScale = direction.x > 0 ? 1 : -1
-        let action = SKAction.move(to: point.cgPoint(), duration: 0.16)
-        let seq = SKAction.sequence([action, SKAction.customAction(withDuration: 0, actionBlock: { (_, _) in
-            let node = self.nodes.first(where:{ (node) -> Bool in
-                return node.name == "\(id)"
-            })
-            if let node = node, let newState = teleport.newState {
-                switch newState {
-                case "idle":
-                    node.removeAction(forKey: "walk")
-                    break
-                case "walk":
-                    break
-                default:
-                    break
-                }
-            }
-        })])
-        node.run(seq)
-
-        if let newState = teleport.newState {
-            switch newState {
-            case "idle":
-                break
-            case "walk":
-                node.removeAllActions()
-                let image1 = NSImage(named: .init(rawValue: "mage-walk1"))!
-                let textureWalk1 = SKTexture(image: image1)
-                
-                let image2 = NSImage(named: .init(rawValue: "mage-walk2"))!
-                let textureWalk2 = SKTexture(image: image2)
-                
-                let walkAction = SKAction.repeatForever(SKAction.animate(with: [textureWalk2, textureWalk1], timePerFrame: 0.2))
-                node.run(walkAction, withKey: "walk")
-                break
-            default:
-                break
-            }
-        }
+        node.handleTeleport(body)
     }
     
     func actionLoad(frontier: CGSize, assets: [Asset], blocks: [Block]) {

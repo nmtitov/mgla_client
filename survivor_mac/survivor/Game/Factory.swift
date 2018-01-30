@@ -8,23 +8,7 @@
 
 import SpriteKit
 
-class Factory {
-    static func createMage(_ body: Init) -> SKNode {
-        let image1 = NSImage(named: .init(rawValue: "mage-walk1"))!
-        let textureWalk1 = SKTexture(image: image1)
-        
-        let image2 = NSImage(named: .init(rawValue: "mage-walk2"))!
-        let _ = SKTexture(image: image2)
-        
-        let node = SKSpriteNode(texture: textureWalk1)
-        node.name = "\(body.id)"
-        node.anchorPoint = CGPoint(x: 0.5, y: 0.0)
-        node.zPosition = CGFloat(NodeLevel.other_player.rawValue)
-        node.position = body.position.cgPoint()
-        
-        return node
-    }
-    
+class Factory {    
     static func createAssetNode(from asset: Asset) -> SKSpriteNode {
         let image = NSImage(named: .init(rawValue: asset.name))!
         let texture = SKTexture(image: image)
