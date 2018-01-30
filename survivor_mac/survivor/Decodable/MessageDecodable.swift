@@ -120,13 +120,13 @@ struct Block: Decodable {
     }
 }
 
-struct Teleport: Decodable {
+struct Update: Decodable {
     let id: Int
     let position: Point?
     let state: String?
 
-    static func decode(_ j: Any) throws -> Teleport {
-        return try Teleport(
+    static func decode(_ j: Any) throws -> Update {
+        return try Update(
             id: j => "id",
             position: j => "position",
             state: j => "state"

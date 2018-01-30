@@ -88,7 +88,7 @@ class GameScene: SKScene, Ensurable {
         
     }
     
-    func actionTeleport(_ body: Teleport) {
+    func actionUpdate(_ body: Update) {
         guard let node = avatars[body.id] else {
             return
         }

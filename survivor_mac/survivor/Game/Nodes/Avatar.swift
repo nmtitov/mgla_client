@@ -92,7 +92,7 @@ class Avatar: SKNode {
         return CGRect(x: -barWidth/2, y: character.frame.maxY + 4, width: barWidth*CGFloat(percent), height: barHeight)
     }
     
-    func handleTeleport(_ body: Teleport) {
+    func handleTeleport(_ body: Update) {
         if let b = body.position {
             character.look(at: b.cgPoint())
             

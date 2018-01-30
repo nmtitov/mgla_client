@@ -18,7 +18,7 @@ protocol WebSocketServiceDelegate {
     func didReceiveEnter(service: WebSocketService, body: Enter)
     func didReceiveMap(service: WebSocketService, body: Map)
     func didReceiveLeave(service: WebSocketService, body: Leave)
-    func didReceiveTeleport(service: WebSocketService, teleport: Teleport)
+    func didReceiveUpdate(service: WebSocketService, update: Update)
 }
 
 class WebSocketService: WebSocketDelegate {
@@ -98,9 +98,9 @@ class WebSocketService: WebSocketDelegate {
         case "id":
             let b = try! Id.decode(message.body)
             delegate?.didReceiveId(service: self, body: b)
-        case "teleport":
-            let concrete = try! Teleport.decode(message.body)
-            delegate?.didReceiveTeleport(service: self, teleport: concrete)
+        case "update":
+            let concrete = try! Update.decode(message.body)
+            delegate?.didReceiveUpdate(service: self, update: concrete)
         case "init":
             let b = try! Init.decode(message.body)
             delegate?.didReceiveInit(service: self, body: b)
