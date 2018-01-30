@@ -24,7 +24,7 @@ class GameScene: SKScene, Ensurable {
     
     var avatars = [Int: Avatar]()
     var cam: SKCameraNode!
-    var player: SKNode?
+    var player: Avatar?
     
     func ensure() {
         assert(cam != nil)
@@ -44,6 +44,12 @@ class GameScene: SKScene, Ensurable {
     
     func touchDown(atPoint point: CGPoint) {
         AppDelegate.shared.webSocketService.actionClick(point: point)
+        if let player = player {
+            let hp = drand48()
+            let mp = drand48()
+            player.handleHealthPercent(hp)
+            player.handleManaPercent(mp)
+        }
     }
     
     func touchMoved(toPoint point: CGPoint) {

@@ -14,8 +14,10 @@ class Avatar: SKNode {
     let isPlayer: Bool
     
     /* objects */
-    let nameLabel: SKLabelNode
-    let character: Character
+    var nameLabel: SKLabelNode!
+    var character: Character!
+    var healthBar: SKShapeNode!
+    var manaBar: SKShapeNode!
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -25,43 +27,45 @@ class Avatar: SKNode {
         fatalError("init(coder:) has not been implemented")
     }
     
+    let barWidth: CGFloat = 40
+    let barHeight: CGFloat = 4
+    
     init(_ body: Init, isPlayer: Bool) {
+        self.id = body.id
+        self.isPlayer = isPlayer
+        super.init()
+        
+        zPosition = (self.isPlayer ? NodeLevel.player : NodeLevel.other_player).rawValue
+        position = body.position.cgPoint()
+
+        character = Character()
+        
         nameLabel = SKLabelNode(text: body.name)
         nameLabel.fontName = "Helvetica-Neue"
         nameLabel.fontSize = 12
-        
-        self.id = body.id
-        self.isPlayer = isPlayer
-        self.character = Character()
-        super.init()
-        zPosition = (self.isPlayer ? NodeLevel.player : NodeLevel.other_player).rawValue
-        position = body.position.cgPoint()
-        
         nameLabel.zPosition = 10
         nameLabel.position = CGPoint(x: nameLabel.position.x, y: character.frame.maxY + 16)
         
-        let w: CGFloat = 40
-        let h: CGFloat = 4
-        let healthBgRect = CGRect(x: -w/2, y: character.frame.maxY + 10, width: w, height: h)
+        let healthBgRect = createHealthRect(percent: 1.0)
         let healthBgBar = SKShapeNode(rect: healthBgRect, cornerRadius: 0)
         healthBgBar.strokeColor = .clear
         healthBgBar.fillColor = .darkGray
         healthBgBar.zPosition = 5
-
-        let manaBgRect = CGRect(x: -w/2, y: character.frame.maxY + 4, width: w, height: h)
+        
+        let manaBgRect = createManaRect(percent: 1.0)
         let manaBgBar = SKShapeNode(rect: manaBgRect, cornerRadius: 0)
         manaBgBar.strokeColor = .clear
         manaBgBar.fillColor = .darkGray
         manaBgBar.zPosition = 5
         
-        let healthRect = CGRect(x: -w/2, y: character.frame.maxY + 10, width: w, height: h)
-        let healthBar = SKShapeNode(rect: healthRect, cornerRadius: 0)
+        let healthRect = createHealthRect(percent: body.health_percent)
+        healthBar = SKShapeNode(rect: healthRect, cornerRadius: 0)
         healthBar.strokeColor = .clear
         healthBar.fillColor = .red
         healthBar.zPosition = healthBgBar.zPosition + 1
         
-        let manaRect = CGRect(x: -w/2, y: character.frame.maxY + 4, width: w, height: h)
-        let manaBar = SKShapeNode(rect: manaRect, cornerRadius: 0)
+        let manaRect = createManaRect(percent: body.mana_percent)
+        manaBar = SKShapeNode(rect: manaRect, cornerRadius: 0)
         manaBar.strokeColor = .clear
         manaBar.fillColor = .blue
         manaBar.zPosition = manaBgBar.zPosition + 1
@@ -74,6 +78,14 @@ class Avatar: SKNode {
         
         addChild(healthBar)
         addChild(manaBar)
+    }
+    
+    func createHealthRect(percent: Double) -> CGRect {
+        return CGRect(x: -barWidth / 2, y: character.frame.maxY + 10, width: barWidth * CGFloat(percent), height: barHeight)
+    }
+
+    func createManaRect(percent: Double) -> CGRect {
+        return CGRect(x: -barWidth/2, y: character.frame.maxY + 4, width: barWidth*CGFloat(percent), height: barHeight)
     }
     
     func handleTeleport(_ body: Teleport) {
@@ -91,5 +103,13 @@ class Avatar: SKNode {
             }
         }])
         run(seq)
+    }
+    
+    func handleHealthPercent(_ percent: Double) {
+//        healthBar.xScale = CGFloat(percent)
+    }
+    
+    func handleManaPercent(_ percent: Double) {
+//        manaBar.xScale = CGFloat(percent)
     }
 }
