@@ -11,20 +11,17 @@ import CocoaLumberjack
 import Starscream
 
 protocol WebSocketServiceDelegate {
-    
     func didConnect(service: WebSocketService)
     func didDisconnect(service: WebSocketService)
-    func didId(service: WebSocketService, body: Id)
-    func didInit(service: WebSocketService, body: Init)
-    func didEnter(service: WebSocketService, body: Enter)
+    func didReceiveId(service: WebSocketService, body: Id)
+    func didReceiveInit(service: WebSocketService, body: Init)
+    func didReceiveEnter(service: WebSocketService, body: Enter)
     func didReceiveMap(service: WebSocketService, body: Map)
-    func didLeave(service: WebSocketService, body: Leave)
-    func didTeleport(service: WebSocketService, teleport: Teleport)
-    
+    func didReceiveLeave(service: WebSocketService, body: Leave)
+    func didReceiveTeleport(service: WebSocketService, teleport: Teleport)
 }
 
 class WebSocketService: WebSocketDelegate {
-    
     private let socket: WebSocket
     var delegate: WebSocketServiceDelegate?
     var timer: Timer?
@@ -100,22 +97,22 @@ class WebSocketService: WebSocketDelegate {
         switch message.type {
         case "id":
             let b = try! Id.decode(message.body)
-            delegate?.didId(service: self, body: b)
+            delegate?.didReceiveId(service: self, body: b)
         case "teleport":
             let concrete = try! Teleport.decode(message.body)
-            delegate?.didTeleport(service: self, teleport: concrete)
+            delegate?.didReceiveTeleport(service: self, teleport: concrete)
         case "init":
             let b = try! Init.decode(message.body)
-            delegate?.didInit(service: self, body: b)
+            delegate?.didReceiveInit(service: self, body: b)
         case "enter":
             let concrete = try! Enter.decode(message.body)
-            delegate?.didEnter(service: self, body: concrete)
+            delegate?.didReceiveEnter(service: self, body: concrete)
         case "map":
             let concrete = try! Map.decode(message.body)
             delegate?.didReceiveMap(service: self, body: concrete)
         case "leave":
             let concrete = try! Leave.decode(message.body)
-            delegate?.didLeave(service: self, body: concrete)
+            delegate?.didReceiveLeave(service: self, body: concrete)
         default:
             DDLogError("Unknown message type = \(message.type)")
         }
@@ -124,5 +121,4 @@ class WebSocketService: WebSocketDelegate {
     func websocketDidReceiveData(socket: WebSocketClient, data: Data) {
         DDLogInfo("\(#function): \(data)")
     }
-
 }
