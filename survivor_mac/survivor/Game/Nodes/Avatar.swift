@@ -93,20 +93,21 @@ class Avatar: SKNode {
     }
     
     func handleTeleport(_ body: Teleport) {
-        let b = body.point.cgPoint()
-        character.look(at: b)
-        
-        if let newState = body.newState, newState == "walk" {
-            character.toggleWalkAnimation()
+        if let b = body.position {
+            character.look(at: b.cgPoint())
+            
+            let action = SKAction.move(to: b.cgPoint(), duration: 0.16)
+            let seq = SKAction.sequence([action, SKAction.run {
+                if let state = body.state, state == "idle" {
+                    self.character.toggleIdleAnimation()
+                }
+                }])
+            run(seq)
         }
         
-        let action = SKAction.move(to: b, duration: 0.16)
-        let seq = SKAction.sequence([action, SKAction.run {
-            if let newState = body.newState, newState == "idle" {
-                self.character.toggleIdleAnimation()
-            }
-        }])
-        run(seq)
+        if let state = body.state, state == "walk" {
+            character.toggleWalkAnimation()
+        }
     }
     
     func handleHealthPercent(_ percent: Double) {
