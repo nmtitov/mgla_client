@@ -70,7 +70,7 @@ class GameScene: SKScene, Ensurable {
     }
     
     func actionInit(body: Init) {
-        let n = createMageNode(id: body.id, point: body.position.cgPoint())
+        let n = Factory.createMageNode(id: body.id, point: body.position.cgPoint())
         if body.id == serverId {
             n.zPosition = CGFloat(NodeLevel.player.rawValue)
             player = n
@@ -136,15 +136,15 @@ class GameScene: SKScene, Ensurable {
     }
     
     func actionLoad(frontier: CGSize, assets: [Asset], blocks: [Block]) {
-        let node = createFrontierNode(size: frontier)
+        let node = Factory.createFrontierNode(size: frontier)
         addChild(node)
         
         for item in assets {
-            let node = createAssetNode(from: item)
+            let node = Factory.createAssetNode(from: item)
             addChild(node)
         }
         for item in blocks {
-            let node = createBlockNode(from: item)
+            let node = Factory.createBlockNode(from: item)
             addChild(node)
         }
     }
@@ -168,63 +168,6 @@ class GameScene: SKScene, Ensurable {
     override func mouseDragged(with event: NSEvent) {
         let clickLocation = event.location(in: self)
         self.touchMoved(toPoint: clickLocation)
-    }
-
-    // MARK: - Factory
-    
-    private func createNode(id: Int, point: CGPoint) -> SKNode {
-        let node = SKShapeNode(circleOfRadius: 1)
-        node.name = "\(id)"
-        node.fillColor = .white
-        node.position = point
-        node.zPosition = CGFloat(NodeLevel.other_player.rawValue)
-        return node
-    }
-    
-    private func createMageNode(id: Int, point: CGPoint) -> SKNode {
-        let image1 = NSImage(named: .init(rawValue: "mage-walk1"))!
-        let textureWalk1 = SKTexture(image: image1)
-        
-        let image2 = NSImage(named: .init(rawValue: "mage-walk2"))!
-        let textureWalk2 = SKTexture(image: image2)
-        
-        let node = SKSpriteNode(texture: textureWalk1)
-        node.name = "\(id)"
-        node.anchorPoint = CGPoint(x: 0.5, y: 0.0)
-        node.zPosition = CGFloat(NodeLevel.other_player.rawValue)
-        node.position = point
-
-        return node
-    }
-    
-    private func createAssetNode(from asset: Asset) -> SKSpriteNode {
-        let image = NSImage(named: .init(rawValue: asset.name))!
-        let texture = SKTexture(image: image)
-        let node = SKSpriteNode(texture: texture)
-        node.anchorPoint = CGPoint.zero
-        node.size = asset.size.cgSize()
-        node.zPosition = CGFloat(asset.z)
-        node.position = asset.position.cgPoint()
-        return node
-    }
-    
-    private func createBlockNode(from block: Block) -> SKShapeNode {
-        let node = SKShapeNode(rect: CGRect(origin: block.position.cgPoint(), size: block.size.cgSize()))
-        node.name = "\(block.type)"
-        node.fillColor = .clear
-        node.strokeColor = .black
-        node.zPosition = CGFloat(NodeLevel.block.rawValue)
-        return node
-    }
-    
-    private func createFrontierNode(size: CGSize) -> SKShapeNode {
-        let node = SKShapeNode(rect: CGRect(origin: CGPoint.zero, size: size))
-        node.name = "frontier"
-        node.fillColor = .clear
-        node.strokeColor = .white
-        node.lineWidth = 2
-        node.zPosition = CGFloat(NodeLevel.frontier.rawValue)
-        return node
     }
     
 }
