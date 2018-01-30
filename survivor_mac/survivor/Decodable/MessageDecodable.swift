@@ -124,12 +124,16 @@ struct Update: Decodable {
     let id: Int
     let position: Point?
     let state: String?
-
+    let health_percent: Double?
+    let mana_percent: Double?
+    
     static func decode(_ j: Any) throws -> Update {
         return try Update(
             id: j => "id",
             position: j => "position",
-            state: j => "state"
+            state: j => "state",
+            health_percent: j => "health_percent",
+            mana_percent: j => "mana_percent"
         )
     }
 }

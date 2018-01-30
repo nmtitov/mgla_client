@@ -92,7 +92,7 @@ class Avatar: SKNode {
         return CGRect(x: -barWidth/2, y: character.frame.maxY + 4, width: barWidth*CGFloat(percent), height: barHeight)
     }
     
-    func handleTeleport(_ body: Update) {
+    func handleUpdate(_ body: Update) {
         if let b = body.position {
             character.look(at: b.cgPoint())
             
@@ -107,6 +107,12 @@ class Avatar: SKNode {
         
         if let state = body.state, state == "walk" {
             character.toggleWalkAnimation()
+        }
+        if let health = body.health_percent {
+            handleHealthPercent(health)
+        }
+        if let mana = body.mana_percent {
+            handleManaPercent(mana)
         }
     }
     

@@ -44,12 +44,6 @@ class GameScene: SKScene, Ensurable {
     
     func touchDown(atPoint point: CGPoint) {
         AppDelegate.shared.webSocketService.actionClick(point: point)
-        if let player = player {
-            let hp = drand48()
-            let mp = drand48()
-            player.handleHealthPercent(hp)
-            player.handleManaPercent(mp)
-        }
     }
     
     func touchMoved(toPoint point: CGPoint) {
@@ -92,7 +86,7 @@ class GameScene: SKScene, Ensurable {
         guard let node = avatars[body.id] else {
             return
         }
-        node.handleTeleport(body)
+        node.handleUpdate(body)
     }
     
     func actionLoad(frontier: CGSize, assets: [Asset], blocks: [Block]) {
