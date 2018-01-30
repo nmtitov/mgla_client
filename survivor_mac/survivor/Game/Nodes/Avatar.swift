@@ -39,7 +39,7 @@ class Avatar: SKNode {
         zPosition = (self.isPlayer ? NodeLevel.player : NodeLevel.other_player).rawValue
         position = body.position.cgPoint()
         
-        nameLabel.zPosition = zPosition + 10
+        nameLabel.zPosition = 10
         nameLabel.position = CGPoint(x: nameLabel.position.x, y: character.frame.maxY + 10)
     }
     
