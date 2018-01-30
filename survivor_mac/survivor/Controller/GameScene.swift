@@ -70,13 +70,13 @@ class GameScene: SKScene, Ensurable {
     }
     
     func actionInit(body: Init) {
-        let n = Factory.createMageNode(id: body.id, point: body.position.cgPoint())
+        let node = Factory.createMage(body)
         if body.id == serverId {
-            n.zPosition = CGFloat(NodeLevel.player.rawValue)
-            player = n
+            node.zPosition = CGFloat(NodeLevel.player.rawValue)
+            player = node
         }
-        nodes.append(n)
-        addChild(n)
+        nodes.append(node)
+        addChild(node)
     }
     
     func actionEnter(body: Enter) {

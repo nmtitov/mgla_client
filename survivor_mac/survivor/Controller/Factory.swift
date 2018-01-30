@@ -18,7 +18,7 @@ class Factory {
         return node
     }
     
-    static func createMageNode(id: Int, point: CGPoint) -> SKNode {
+    static func createMage(_ body: Init) -> SKNode {
         let image1 = NSImage(named: .init(rawValue: "mage-walk1"))!
         let textureWalk1 = SKTexture(image: image1)
         
@@ -26,10 +26,10 @@ class Factory {
         let _ = SKTexture(image: image2)
         
         let node = SKSpriteNode(texture: textureWalk1)
-        node.name = "\(id)"
+        node.name = "\(body.id)"
         node.anchorPoint = CGPoint(x: 0.5, y: 0.0)
         node.zPosition = CGFloat(NodeLevel.other_player.rawValue)
-        node.position = point
+        node.position = body.position.cgPoint()
         
         return node
     }
