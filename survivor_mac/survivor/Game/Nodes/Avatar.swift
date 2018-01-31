@@ -41,7 +41,7 @@ class Avatar: SKNode {
         character = Character()
         
         nameLabel = SKLabelNode(text: body.name)
-        nameLabel.fontName = "Helvetica-Neue"
+        nameLabel.fontName = "Helvetica"
         nameLabel.fontSize = 12
         nameLabel.zPosition = 10
         nameLabel.position = CGPoint(x: nameLabel.position.x, y: character.frame.maxY + 16)
