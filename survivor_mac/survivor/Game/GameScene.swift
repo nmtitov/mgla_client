@@ -43,7 +43,18 @@ class GameScene: SKScene, Ensurable {
     }
     
     func touchDown(atPoint point: CGPoint) {
-        AppDelegate.shared.webSocketService.actionClick(point: point)
+        let avatarId = findAvatarId(atPoint: point)
+        AppDelegate.shared.webSocketService.actionClick(point: point, avatarId: avatarId)
+    }
+    
+    func findAvatarId(atPoint point: CGPoint) -> Int? {
+        let node = atPoint(point)
+        if type(of: node) == Character.self {
+            if let parent = node.parent as? Avatar {
+                return parent.id
+            }
+        }
+        return nil
     }
     
     func touchMoved(toPoint point: CGPoint) {
