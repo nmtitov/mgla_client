@@ -10,10 +10,20 @@ import Foundation
 
 struct ClickMessage: Codable {
     let type = "click"
-    let body: [String: Float]
+    let body: ClickBody
     
-    init(x: Float, y: Float) {
-        body = ["x": x, "y": y]
+    init(body: ClickBody) {
+        self.body = body
+    }
+}
+
+struct ClickBody: Codable {
+    let point: [String: Float]
+    let avatar_id: Int?
+    
+    init(x: Float, y: Float, avatar_id: Int?) {
+        self.point = ["x": x, "y": y]
+        self.avatar_id = avatar_id
     }
 }
 

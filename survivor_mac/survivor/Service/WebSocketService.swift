@@ -71,8 +71,9 @@ class WebSocketService: WebSocketDelegate {
         socket.write(string: jsonString)
     }
     
-    func actionClick(point: CGPoint) {
-        let message = ClickMessage(x: Float(point.x), y: Float(point.y))
+    func actionClick(point: CGPoint, avatarId: Int?) {
+        let body = ClickBody(x: Float(point.x), y: Float(point.y), avatar_id: avatarId)
+        let message = ClickMessage(body: body)
         let jsonData = try! encoder.encode(message)
         let jsonString = String(data: jsonData, encoding: .utf8)!
         socket.write(string: jsonString)

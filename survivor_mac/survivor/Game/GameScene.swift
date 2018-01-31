@@ -44,8 +44,7 @@ class GameScene: SKScene, Ensurable {
     
     func touchDown(atPoint point: CGPoint) {
         let avatarId = findAvatarId(atPoint: point)
-        print(avatarId)
-        AppDelegate.shared.webSocketService.actionClick(point: point)
+        AppDelegate.shared.webSocketService.actionClick(point: point, avatarId: avatarId)
     }
     
     func findAvatarId(atPoint point: CGPoint) -> Int? {
