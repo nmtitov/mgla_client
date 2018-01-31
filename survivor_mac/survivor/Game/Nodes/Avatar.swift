@@ -95,18 +95,19 @@ class Avatar: SKNode {
     func handleUpdate(_ body: Update) {
         if let b = body.position {
             character.look(at: b.cgPoint())
-            
             let action = SKAction.move(to: b.cgPoint(), duration: 0.16)
-            let seq = SKAction.sequence([action, SKAction.run {
-                if let state = body.state, state == "idle" {
-                    self.character.toggleIdleAnimation()
-                }
-                }])
-            run(seq)
+            run(action)
         }
         
-        if let state = body.state, state == "walk" {
-            character.toggleWalkAnimation()
+        if let state = body.state {
+            switch state {
+            case "walk":
+                character.toggleWalkAnimation()
+            case "idle":
+                character.toggleIdleAnimation()
+            default:
+                break
+            }
         }
         if let health = body.health_percent {
             handleHealthPercent(health)
